@@ -23,16 +23,15 @@
 		<p class="section-lede">Sign up, show up in the member directory, then we'll send you to our Google Classroom.</p>
 
 		<form method="POST" onsubmit={() => (sending = true)}>
-			<label>Name<input name="name" autocomplete="name" required maxlength="80" value={form?.name ?? ''}></label>
-			<label>Email<input name="email" type="email" autocomplete="email" required maxlength="120" value={form?.email ?? ''}></label>
+			<label>Name<input name="name" autocomplete="name" value={form?.name ?? ''}></label>
+			<label>Email<input name="email" inputmode="email" autocomplete="email" value={form?.email ?? ''}></label>
 			<label>Grade
-				<select name="grade" required value={form?.grade ?? ''}>
-					<option value="" disabled>pick one</option>
+				<select name="grade" value={form?.grade ?? ''}>
+					<option value="">pick one</option>
 					{#each ['9', '10', '11', '12'] as g}<option value={g}>{g}</option>{/each}
 				</select>
 			</label>
-			<label>GitHub <small>optional</small><input name="github" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="100" placeholder="username" value={form?.github ?? ''}></label>
-			<input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+			<label>GitHub <small>optional</small><input name="github" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="username" value={form?.github ?? ''}></label>
 			{#if form?.error}<p class="err" role="alert">{form.error}</p>{/if}
 			<button class="btn btn--solid" disabled={sending}>{sending ? 'Joining...' : 'Join →'}</button>
 		</form>
@@ -53,7 +52,6 @@
 	input::placeholder { color: rgba(255,255,255,.5); }
 	input:focus, select:focus { outline: none; border-color: var(--white); }
 	option { color: var(--ink); }
-	.hp { position: absolute; left: -9999px; }
 	.err { background: var(--ink); padding: 10px 14px; border-radius: 5px; font-family: var(--mono); font-size: 14px; }
 	.btn { margin-top: 6px; cursor: pointer; font-size: 20px; }
 	.btn:disabled { opacity: .7; cursor: wait; }
