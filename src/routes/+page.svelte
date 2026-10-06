@@ -316,10 +316,9 @@
 			<a class="idea ext" href="https://www.deltahacks.com/" target="_blank" rel="noopener"><b>DeltaHacks</b><span>McMaster's hackathon in Hamilton.</span></a>
 			<a class="idea ext" href="https://www.hackwestern.com/" target="_blank" rel="noopener"><b>Hack Western</b><span>Western University, London ON.</span></a>
 			<a class="idea ext" href="https://www.uottahack.ca/" target="_blank" rel="noopener"><b>uOttaHack</b><span>University of Ottawa's hackathon.</span></a>
-			<a class="idea ext" href="https://www.ignitionhacks.org/" target="_blank" rel="noopener"><b>Ignition Hacks</b><span>Online hackathon for high schoolers!</span></a>
 			<a class="idea ext" href="https://hiskule.skule.ca/" target="_blank" rel="noopener"><b>U of T HS Design</b><span>Engineering design challenge run by U of T.</span></a>
 			<a class="idea ext" href="https://engineering.ontariotechu.ca/outreach/teacher-programs/robotics_competition/index.php" target="_blank" rel="noopener"><b>Ontario Tech Robotics</b><span>Build and run a robot against other schools.</span></a>
-			<a class="idea ext" href="https://www.mechmania.ca/" target="_blank" rel="noopener"><b>Waterloo MechMania</b><span>Programming competition.</span></a>
+			<a class="idea ext" href="https://www.mechmania.ca/" target="_blank" rel="noopener"><b>Waterloo MechMania</b><span>Student-run robotics competition for Waterloo Region schools.</span></a>
 			<a class="idea ext" href="https://www.congressionalappchallenge.us/" target="_blank" rel="noopener"><b>Congressional App Challenge</b><span>Build an app, get judged.</span></a>
 			<a class="idea ext" href="https://www.samsung.com/ca/solvefortomorrow/" target="_blank" rel="noopener"><b>Samsung Solve for Tomorrow</b><span>Use tech to solve a problem in your community.</span></a>
 		</div>
