@@ -1,5 +1,4 @@
-import { fail, redirect } from '@sveltejs/kit';
-import { CLASSROOM_URL } from '#lib/data.js';
+import { fail } from '@sveltejs/kit';
 import { createMember, emailExists, hasToken } from '#lib/server/baserow.js';
 
 export const actions = {
@@ -30,6 +29,6 @@ export const actions = {
 			return fail(502, { ...values, error: 'Something broke. Try again, or use the classroom code below!' });
 		}
 
-		redirect(303, CLASSROOM_URL, { external: true });
+		return { success: true };
 	}
 };

@@ -1,6 +1,7 @@
 export const SITE_URL = 'https://cs.fraserhacks.dev';
 export const CLASSROOM_CODE = 'huglqpjv';
 export const CLASSROOM_URL = 'https://classroom.google.com/c/ODA0NzMyMzIwMzI5?cjc=huglqpjv';
+export const INSTAGRAM = 'jfss_cs';
 
 export const TYPES = {
 	hw: { label: 'Hardware', tag: 'tag--hw' },

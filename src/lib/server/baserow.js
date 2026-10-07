@@ -37,7 +37,7 @@ export async function listMembers() {
 	});
 	return results.map((r) => ({
 		name: r.Name?.trim() ?? '',
-		role: r.Role?.trim() || 'Member',
+		role: r.Role?.trim() || 'Builder',
 		exec: Boolean(r.Exec),
 		github: r.GitHub?.trim().replace(/^@/, '') ?? '',
 		projects: (r.Projects ?? '').split(/\s+/).filter((u) => u.startsWith('https://'))

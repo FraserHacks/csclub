@@ -245,7 +245,7 @@
 					<span class="av">{initials(m.name)}</span>
 					<div class="m-name"><b>{m.name}</b><span class="role {m.exec ? 'role--exec' : 'role--member'}">{m.role}</span></div>
 					<div class="m-projects">
-						{#each m.projects as url}<a href={url} target="_blank" rel="noopener">{projectName(url)}</a>{:else}<span class="none">first project coming soon!</span>{/each}
+						{#each m.projects as url}<a href={url} target="_blank" rel="noopener">{projectName(url)}</a>{:else}<span class="none">building something soon?</span>{/each}
 					</div>
 					{#if m.github}<a class="m-gh" href="https://github.com/{m.github}" target="_blank" rel="noopener">@{m.github}</a>{/if}
 				</div>
