@@ -4,6 +4,7 @@
 	import {
 		SITE_URL,
 		CLASSROOM_CODE,
+		INSTAGRAM,
 		TYPES,
 		projects,
 		carousel,
@@ -142,6 +143,7 @@
 				<div class="join-actions">
 					<a class="members-btn" href="#members">Meet the members ↓</a>
 					<a class="class-code" href="/join" aria-label="Google Classroom code {CLASSROOM_CODE}">{CLASSROOM_CODE}</a>
+					<a class="insta-btn ext" href="https://instagram.com/{INSTAGRAM}" target="_blank" rel="noopener" aria-label="Instagram @{INSTAGRAM}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="17.3" cy="6.7" r="1.3" fill="currentColor"/></svg>@{INSTAGRAM}</a>
 				</div>
 			</div>
 		</div>
@@ -155,7 +157,7 @@
 	<div class="reasons">
 		<div class="club-info">
 			<p class="tagline">Build cool stuff!!<br><span>Win prizes!</span><br>Get ECs!</p>
-			<p class="when"><b>Thursdays</b> · <b>Lunch</b> · Rm TBD</p>
+			<p class="when"><b>Day TBD</b> · <b>Lunch</b> · Rm 183</p>
 		</div>
 
 		<div class="reason">
@@ -252,7 +254,7 @@
 			{/each}
 			<a class="m-row m-row--you" href="/join">
 				<span class="av">+</span>
-				<div class="m-name"><b>You?!</b><span class="role">join on Thursday</span></div>
+				<div class="m-name"><b>You?!</b><span class="role">join the club</span></div>
 				<div class="m-projects"><span class="none">build something and it shows up here</span></div>
 			</a>
 		</div>

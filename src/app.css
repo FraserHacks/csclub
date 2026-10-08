@@ -604,6 +604,10 @@ a.proj { text-decoration: none; color: inherit; }
 .join .join-actions .members-btn { margin-top: 0; }
 .class-code { display: flex; align-items: center; padding: 8px 12px 6px; border-radius: 6px; background: var(--white); color: var(--red-dark); font-family: var(--mono); font-weight: 700; font-size: clamp(16px, 1.3vw, 22px); letter-spacing: .04em; text-decoration: none; transition: transform .15s, box-shadow .15s; }
 .class-code:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--ink); }
+.insta-btn { display: flex; align-items: center; gap: 8px; padding: 8px 12px 6px; border-radius: 6px; background: var(--cyan); color: var(--ink); font-family: var(--mono); font-weight: 700; font-size: clamp(14px, 1.1vw, 18px); transition: transform .15s, box-shadow .15s; }
+.insta-btn svg { width: 1.3em; height: 1.3em; flex: none; margin-top: -2px; }
+.insta-btn::after { content: ""; width: .55em; height: .55em; background: currentColor; -webkit-mask: var(--ext-icon) center / contain no-repeat; mask: var(--ext-icon) center / contain no-repeat; }
+.insta-btn:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--ink); }
 a.m-row--you { text-decoration: none; }
 
 /* external links: little arrow so it's clear they're clickable */
