@@ -44,8 +44,6 @@ Build cool things, win prizes, compete, and take home a 3D printed trinket every
 - **[Peel Skills](https://www.peelschools.org/peel-skills-challenge) → [Skills Ontario](https://www.skillsontario.com/) → [Skills Canada](https://www.skillscompetencescanada.com/):** gold, silver and bronze medals, plus $1,000 Skills Ontario scholarships.
 - **[FraserHacks](https://www.fraserhacks.dev/):** our own hackathon. Prizes for the winning teams.
 
-### More competitions
-
 - [Local hackathons](https://www.mlh.com/seasons/2027/events): weekend build sprints around the GTA. We go as a group.
 - [Hack the North](https://hackthenorth.com/): Canada's biggest hackathon, at Waterloo.
 - [JAMHacks](https://www.jamhacks.ca/): high school hackathon in Waterloo.
@@ -56,7 +54,6 @@ Build cool things, win prizes, compete, and take home a 3D printed trinket every
 - [U of T HS Design](https://hiskule.skule.ca/): engineering design challenge run by U of T.
 - [Ontario Tech Robotics](https://engineering.ontariotechu.ca/outreach/teacher-programs/robotics_competition/index.php): build and run a robot against other schools.
 - [Waterloo MechMania](https://www.mechmania.ca/): student-run robotics competition for Waterloo Region schools.
-- [Congressional App Challenge](https://www.congressionalappchallenge.us/): build an app, get judged.
 - [Samsung Solve for Tomorrow](https://www.samsung.com/ca/solvefortomorrow/): use tech to solve a problem in your community.
 
 ## Also coming up

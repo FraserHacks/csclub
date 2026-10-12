@@ -296,6 +296,19 @@
 			<div class="ladder"><div class="path"><b><a class="ext" href="https://www.peelschools.org/peel-skills-challenge" target="_blank" rel="noopener">Peel Skills</a></b><i>→</i><span><a class="ext" href="https://www.skillsontario.com/" target="_blank" rel="noopener">Skills Ontario</a></span><i>→</i><span><a class="ext" href="https://www.skillscompetencescanada.com/" target="_blank" rel="noopener">Skills Canada</a></span></div><p>Gold, silver and bronze medals, plus $1,000 Skills Ontario scholarships.</p></div>
 			<div class="ladder ladder--red"><div class="path"><b><a class="ext" href="https://www.fraserhacks.dev/" target="_blank" rel="noopener">FraserHacks</a></b></div><p>Our own hackathon. Prizes for the winning teams.</p></div>
 		</div>
+		<div class="idea-grid" style="margin-top:14px">
+			<a class="idea ext" href="https://www.mlh.com/seasons/2027/events" target="_blank" rel="noopener"><b>Local hackathons</b><span>Weekend build sprints around the GTA. We go as a group.</span></a>
+			<a class="idea ext" href="https://hackthenorth.com/" target="_blank" rel="noopener"><b>Hack the North</b><span>Canada's biggest hackathon, at Waterloo.</span></a>
+			<a class="idea ext" href="https://www.jamhacks.ca/" target="_blank" rel="noopener"><b>JAMHacks</b><span>High school hackathon in Waterloo!</span></a>
+			<a class="idea ext" href="https://hackthe6ix.com/" target="_blank" rel="noopener"><b>Hack the 6ix</b><span>Toronto's summer hackathon.</span></a>
+			<a class="idea ext" href="https://www.deltahacks.com/" target="_blank" rel="noopener"><b>DeltaHacks</b><span>McMaster's hackathon in Hamilton.</span></a>
+			<a class="idea ext" href="https://www.hackwestern.com/" target="_blank" rel="noopener"><b>Hack Western</b><span>Western University, London ON.</span></a>
+			<a class="idea ext" href="https://www.uottahack.ca/" target="_blank" rel="noopener"><b>uOttaHack</b><span>University of Ottawa's hackathon.</span></a>
+			<a class="idea ext" href="https://hiskule.skule.ca/" target="_blank" rel="noopener"><b>U of T HS Design</b><span>Engineering design challenge run by U of T.</span></a>
+			<a class="idea ext" href="https://engineering.ontariotechu.ca/outreach/teacher-programs/robotics_competition/index.php" target="_blank" rel="noopener"><b>Ontario Tech Robotics</b><span>Build and run a robot against other schools.</span></a>
+			<a class="idea ext" href="https://www.mechmania.ca/" target="_blank" rel="noopener"><b>Waterloo MechMania</b><span>Student-run robotics competition for Waterloo Region schools.</span></a>
+			<a class="idea ext" href="https://www.samsung.com/ca/solvefortomorrow/" target="_blank" rel="noopener"><b>Samsung Solve for Tomorrow</b><span>Use tech to solve a problem in your community.</span></a>
+		</div>
 
 		<h2 class="board-title" style="margin-top:56px"><span class="echo" data-echo="Also coming up!">Also coming up!</span></h2>
 		<div class="idea-grid">
@@ -307,22 +320,6 @@
 			<div class="idea"><b>Project demo days</b><span>Show off your personal project to the club.</span></div>
 			<div class="idea"><b>FraserHacks prep</b><span>How to actually succeed at a hackathon.</span></div>
 			<div class="idea"><b>CCC practice</b><span>Past problems, worked through together.</span></div>
-		</div>
-
-		<h3 style="margin-top:28px;font-size:26px;color:var(--ink)">More competitions</h3>
-		<div class="idea-grid">
-			<a class="idea ext" href="https://www.mlh.com/seasons/2027/events" target="_blank" rel="noopener"><b>Local hackathons</b><span>Weekend build sprints around the GTA. We go as a group.</span></a>
-			<a class="idea ext" href="https://hackthenorth.com/" target="_blank" rel="noopener"><b>Hack the North</b><span>Canada's biggest hackathon, at Waterloo.</span></a>
-			<a class="idea ext" href="https://www.jamhacks.ca/" target="_blank" rel="noopener"><b>JAMHacks</b><span>High school hackathon in Waterloo!</span></a>
-			<a class="idea ext" href="https://hackthe6ix.com/" target="_blank" rel="noopener"><b>Hack the 6ix</b><span>Toronto's summer hackathon.</span></a>
-			<a class="idea ext" href="https://www.deltahacks.com/" target="_blank" rel="noopener"><b>DeltaHacks</b><span>McMaster's hackathon in Hamilton.</span></a>
-			<a class="idea ext" href="https://www.hackwestern.com/" target="_blank" rel="noopener"><b>Hack Western</b><span>Western University, London ON.</span></a>
-			<a class="idea ext" href="https://www.uottahack.ca/" target="_blank" rel="noopener"><b>uOttaHack</b><span>University of Ottawa's hackathon.</span></a>
-			<a class="idea ext" href="https://hiskule.skule.ca/" target="_blank" rel="noopener"><b>U of T HS Design</b><span>Engineering design challenge run by U of T.</span></a>
-			<a class="idea ext" href="https://engineering.ontariotechu.ca/outreach/teacher-programs/robotics_competition/index.php" target="_blank" rel="noopener"><b>Ontario Tech Robotics</b><span>Build and run a robot against other schools.</span></a>
-			<a class="idea ext" href="https://www.mechmania.ca/" target="_blank" rel="noopener"><b>Waterloo MechMania</b><span>Student-run robotics competition for Waterloo Region schools.</span></a>
-			<a class="idea ext" href="https://www.congressionalappchallenge.us/" target="_blank" rel="noopener"><b>Congressional App Challenge</b><span>Build an app, get judged.</span></a>
-			<a class="idea ext" href="https://www.samsung.com/ca/solvefortomorrow/" target="_blank" rel="noopener"><b>Samsung Solve for Tomorrow</b><span>Use tech to solve a problem in your community.</span></a>
 		</div>
 
 		<div class="uni">
