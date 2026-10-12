@@ -7,3 +7,4 @@ build
 !.env.example
 members.csv
 google_contacts.csv
+list_*.txt

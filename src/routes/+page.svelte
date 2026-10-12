@@ -157,7 +157,7 @@
 	<div class="reasons">
 		<div class="club-info">
 			<p class="tagline">Build cool stuff!!<br><span>Win prizes!</span><br>Get ECs!</p>
-			<p class="when"><b>Day TBD</b> · <b>Lunch</b> · Rm 183</p>
+			<p class="when"><b>Thursdays</b> · <b>Lunch</b> · Rm 183</p>
 		</div>
 
 		<div class="reason">
@@ -254,7 +254,7 @@
 			{/each}
 			<a class="m-row m-row--you" href="/join">
 				<span class="av">+</span>
-				<div class="m-name"><b>You?!</b><span class="role">join the club</span></div>
+				<div class="m-name"><b>You?!</b><span class="role">join on Thursday</span></div>
 				<div class="m-projects"><span class="none">build something and it shows up here</span></div>
 			</a>
 		</div>

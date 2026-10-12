@@ -1,0 +1,1 @@
+Fraser Comp Sci Club is back! No experience or applications needed. Build cool projects, compete at Waterloo events for scholarships, win prizes, and get a free 3D printed trinket every meeting. We meet at lunch in Room 183. Sign up at the Google Classroom with code H-U-G-L-Q-P-J-V to vote on the meeting day! Our insta is @jfss_cs!

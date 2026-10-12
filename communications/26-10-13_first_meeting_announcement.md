@@ -1,0 +1,1 @@
+Fraser Comp Sci Club's first meeting is this Thursday at lunch in Room 183! We're doing an LED heart speed build. No experience needed, and the fastest builder wins a $10 Tim Hortons gift card! Everyone gets a free 3D printed trinket. Sign up on our google classroom H-U-G-L-Q-P-J-V. Our insta is @jfss_cs! See you there!

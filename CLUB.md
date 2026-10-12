@@ -4,7 +4,7 @@ Build cool things, win prizes, compete, and take home a 3D printed trinket every
 
 ## Meetings
 
-- **When:** Lunch, day TBD (voted on in a Google Classroom poll)
+- **When:** Thursdays at lunch
 - **Where:** Room 183
 
 ## Links
