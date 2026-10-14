@@ -617,3 +617,6 @@ a.ext { text-decoration: none; color: inherit; }
 .path a.ext:hover, .comp-three a.ext:hover b { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 a.idea { display: block; transition: transform .15s ease, border-color .15s ease; }
 a.idea:hover { transform: translateY(-2px); border-color: var(--red); }
+.ladder .date, .idea .date { font-family: var(--mono); font-size: 13px; font-weight: 700; font-style: normal; color: var(--red-deep); }
+.ladder .date { margin-top: 6px; }
+.idea .date { display: block; margin-top: 8px; }

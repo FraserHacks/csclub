@@ -1,12 +1,24 @@
 import { defaultMembers } from '#lib/data.js';
-import { hasToken, listMembers } from '#lib/server/baserow.js';
+import { hasProjects, hasToken, listMembers, listProjects } from '#lib/server/baserow.js';
 
-export async function load() {
-	if (!hasToken()) return { members: defaultMembers };
+async function safe(fn, fallback) {
 	try {
-		return { members: await listMembers() };
+		return await fn();
 	} catch (e) {
 		console.error(e);
-		return { members: defaultMembers };
+		return fallback;
 	}
+}
+
+export async function load() {
+	const [members, dbProjects] = await Promise.all([
+		hasToken() ? safe(listMembers, defaultMembers) : defaultMembers,
+		hasProjects() ? safe(listProjects, []) : []
+	]);
+	for (const p of dbProjects) {
+		const m = members.find((m) => m.id === p.memberId);
+		const url = p.href || `#p${p.id}`;
+		if (m && !m.projects.includes(url)) m.projects.push(url);
+	}
+	return { members, dbProjects };
 }

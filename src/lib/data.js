@@ -25,6 +25,12 @@ export const projects = [
 	{ name: 'EasyRP2040', img: 'easyrp2040', frame: 'cut bg-peri', type: 'hw', by: 'Darsh', href: 'https://github.com/darshg321/EasyRP2040', desc: 'Pico-format RP2040 board with debug LEDs and a 9-DOF IMU.' }
 ];
 
+export const meetings = [
+	{ n: 1, title: 'LED heart breadboard', desc: 'Your first circuit, as a speed build. Fastest build wins a $10 Tims card!', href: '/meetings/1' },
+	{ n: 2, title: 'Smash / Mario Kart tourney', desc: 'Easy entry, bracket style. Prize for the winner!!' },
+	{ n: 3, title: 'LED coin cell keychain', desc: 'Learn to solder and design your own case.' }
+];
+
 export const carousel = ['bingbang', 'icey', 'pnake', 'arcadetris', 'binlytic', 'fh26', 'spotiplay', 'easyrp2040'].map(
 	(img) => projects.find((p) => p.img === img)
 );

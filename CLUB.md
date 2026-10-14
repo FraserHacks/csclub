@@ -31,30 +31,29 @@ Build cool things, win prizes, compete, and take home a 3D printed trinket every
 - Free 3D printed trinket every meeting
 - Get listed in the public member directory, and put your projects in the project directory for resumes and university applications
 
-## First meetings
+## Meetings
 
-1. **LED heart breadboard:** your first circuit, as a speed build. Fastest build wins a $10 Tims card!
+1. **[LED heart breadboard](https://cs.fraserhacks.dev/meetings/1):** your first circuit, as a speed build. Fastest build wins a $10 Tims card!
 2. **Smash / Mario Kart tourney:** easy entry, bracket style. Prize for the winner!
 3. **LED coin cell keychain:** learn to solder and design your own case.
 
 ## Competitions
 
-- **[CCC](https://cemc.uwaterloo.ca/contests/ccc) → CCO → [IOI](https://ioinformatics.org/):** Certificate of Distinction for the top 25%. Top ~20 in Canada go to the CCO.
-- **[Peel Science Fair](https://www.peelsciencefair.ca/) → [CWSF](https://youthscience.ca/science-fairs/cwsf/) → [ISEF](https://www.societyforscience.org/isef/):** CWSF medals and ~$2M in prizes + scholarships. ISEF gives out $7M+.
-- **[Peel Skills](https://www.peelschools.org/peel-skills-challenge) → [Skills Ontario](https://www.skillsontario.com/) → [Skills Canada](https://www.skillscompetencescanada.com/):** gold, silver and bronze medals, plus $1,000 Skills Ontario scholarships.
-- **[FraserHacks](https://www.fraserhacks.dev/):** our own hackathon. Prizes for the winning teams.
+- **[CCC](https://cemc.uwaterloo.ca/contests/ccc) → CCO → [IOI](https://ioinformatics.org/):** Certificate of Distinction for the top 25%. Top ~20 in Canada go to the CCO. CCC Feb 17, 2027 · CCO usually late May · IOI Sep 12–19, 2027.
+- **[Peel Science Fair](https://www.peelsciencefair.ca/) → [CWSF](https://youthscience.ca/science-fairs/cwsf/) → [ISEF](https://www.societyforscience.org/isef/):** CWSF medals and ~$2M in prizes + scholarships. ISEF gives out $7M+. Peel usually April · CWSF May 29 – Jun 5, 2027 · ISEF May 8–14, 2027.
+- **[Peel Skills](https://www.peelschools.org/peel-skills-challenge) → [Skills Ontario](https://www.skillsontario.com/) → [Skills Canada](https://www.skillscompetencescanada.com/):** gold, silver and bronze medals, plus $1,000 Skills Ontario scholarships. Peel usually spring · Skills Ontario usually early May · Skills Canada May 27–28, 2027.
+- **[FraserHacks](https://www.fraserhacks.dev/):** our own hackathon. Prizes for the winning teams. Date TBA.
 
-- [Local hackathons](https://www.mlh.com/seasons/2027/events): weekend build sprints around the GTA. We go as a group.
-- [Hack the North](https://hackthenorth.com/): Canada's biggest hackathon, at Waterloo.
-- [JAMHacks](https://www.jamhacks.ca/): high school hackathon in Waterloo.
-- [Hack the 6ix](https://hackthe6ix.com/): Toronto's summer hackathon.
-- [DeltaHacks](https://www.deltahacks.com/): McMaster's hackathon in Hamilton.
-- [Hack Western](https://www.hackwestern.com/): Western University, London ON.
-- [uOttaHack](https://www.uottahack.ca/): University of Ottawa's hackathon.
-- [U of T HS Design](https://hiskule.skule.ca/): engineering design challenge run by U of T.
-- [Ontario Tech Robotics](https://engineering.ontariotechu.ca/outreach/teacher-programs/robotics_competition/index.php): build and run a robot against other schools.
-- [Waterloo MechMania](https://www.mechmania.ca/): student-run robotics competition for Waterloo Region schools.
-- [Samsung Solve for Tomorrow](https://www.samsung.com/ca/solvefortomorrow/): use tech to solve a problem in your community.
+- [Local hackathons](https://www.mlh.com/seasons/2027/events): weekend build sprints around the GTA. We go as a group. Year-round.
+- [Hack the North](https://hackthenorth.com/): Canada's biggest hackathon, at Waterloo. Usually mid Sep.
+- [JAMHacks](https://www.jamhacks.ca/): high school hackathon in Waterloo. Usually June.
+- [Hack the 6ix](https://hackthe6ix.com/): Toronto's summer hackathon. Usually July.
+- [DeltaHacks](https://www.deltahacks.com/): McMaster's hackathon in Hamilton. Jan 9–10, 2027.
+- [uOttaHack](https://www.uottahack.ca/): University of Ottawa's hackathon. Usually Jan / Feb.
+- [U of T HS Design](https://hiskule.skule.ca/): engineering design challenge run by U of T. Usually November.
+- [Ontario Tech Robotics](https://engineering.ontariotechu.ca/outreach/teacher-programs/robotics_competition/index.php): build and run a robot against other schools. Usually mid November.
+- [Waterloo MechMania](https://www.mechmania.ca/): student-run robotics competition for Waterloo Region schools. Usually June.
+- [Samsung Solve for Tomorrow](https://www.samsung.com/ca/solvefortomorrow/): use tech to solve a problem in your community. Entries usually Jan – Feb.
 
 ## Also coming up
 

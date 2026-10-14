@@ -7,6 +7,7 @@
 		INSTAGRAM,
 		TYPES,
 		projects,
+		meetings,
 		carousel,
 		boothTrinkets,
 		prizes,
@@ -27,9 +28,14 @@
 		['sw', 'Software']
 	];
 
+	const allProjects = $derived([...projects, ...data.dbProjects.filter((p) => !p.meeting)]);
+	const meetingBuilds = $derived(
+		meetings.map((m) => ({ ...m, builds: data.dbProjects.filter((p) => p.meeting === m.n) })).filter((m) => m.builds.length)
+	);
+
 	const shown = $derived.by(() => {
 		const q = query.trim().toLowerCase();
-		return projects.filter(
+		return allProjects.filter(
 			(p) =>
 				(filter === 'all' || p.type === filter || p.type === 'both') &&
 				(!q || [p.name, p.desc, p.by].some((s) => s.toLowerCase().includes(q)))
@@ -45,7 +51,7 @@
 			.toUpperCase();
 
 	const projectName = (url) => {
-		const p = projects.find((p) => p.href.toLowerCase() === url.toLowerCase());
+		const p = [...projects, ...data.dbProjects].find((p) => (p.href || `#p${p.id}`).toLowerCase() === url.toLowerCase());
 		return p ? (p.short ?? p.name) : url.replace(/\/+$/, '').split('/').pop();
 	};
 
@@ -176,6 +182,17 @@
 	</div>
 </section>
 
+{#snippet card(p)}
+	<svelte:element this={p.href ? 'a' : 'article'} class="proj" id={p.id ? `p${p.id}` : undefined} href={p.href || undefined} target={p.href ? '_blank' : undefined} rel={p.href ? 'noopener' : undefined} data-type={p.type}>
+		<div class="proj-img proj-img--{p.frame ?? 'shot'}"><img src={p.src ?? `/assets/projects/${p.img}.webp`} alt={p.name} loading="lazy"></div>
+		<div class="proj-body">
+			<h3>{p.name}</h3>
+			{#if p.desc}<p>{p.desc}</p>{/if}
+			<div class="proj-meta"><span>by {p.by}</span><span class="tag {TYPES[p.type].tag}">{TYPES[p.type].label}</span></div>
+		</div>
+	</svelte:element>
+{/snippet}
+
 <section class="section projects" id="projects">
 	<div class="outline-word side-word" aria-hidden="true">BUILD</div>
 	<div class="wrap">
@@ -188,14 +205,14 @@
 				<p>Start here. We build these at meetings.</p>
 			</div>
 			<div class="proj-grid">
-				<article class="proj">
+				<a class="proj" href="/meetings/1">
 					<div class="proj-img proj-img--shot"><img src="/assets/projects/led-heart.webp" alt="Red LEDs arranged in a heart on a board" loading="lazy"></div>
 					<div class="proj-body">
 						<h3>LED breadboard heart</h3>
 						<p>Wire up LEDs and resistors into a heart. Your first circuit.</p>
 						<div class="proj-meta"><span>meeting 1</span><span class="tag tag--hw">Hardware</span></div>
 					</div>
-				</article>
+				</a>
 				<article class="proj">
 					<div class="proj-img proj-img--cut bg-cyan"><img src="/assets/projects/personal-site.webp" alt="A website shown on a tablet, laptop and phone" loading="lazy"></div>
 					<div class="proj-body">
@@ -207,6 +224,18 @@
 			</div>
 		</div>
 
+		{#each meetingBuilds as m}
+			<div class="proj-group">
+				<div class="proj-group-head">
+					<h3>Meeting {String(m.n).padStart(2, '0')} <span>{m.title}</span></h3>
+					{#if m.href}<p><a href={m.href}>instructions →</a></p>{/if}
+				</div>
+				<div class="proj-grid">
+					{#each m.builds as p (p.id)}{@render card(p)}{/each}
+				</div>
+			</div>
+		{/each}
+
 		<div class="proj-bar">
 			<div class="tabs" role="group" aria-label="Filter projects">
 				{#each tabs as [value, label]}
@@ -217,16 +246,7 @@
 		</div>
 
 		<div class="proj-grid">
-			{#each shown as p (p.img)}
-				<a class="proj" href={p.href} target="_blank" rel="noopener" data-type={p.type}>
-					<div class="proj-img proj-img--{p.frame}"><img src="/assets/projects/{p.img}.webp" alt={p.name} loading="lazy"></div>
-					<div class="proj-body">
-						<h3>{p.name}</h3>
-						<p>{p.desc}</p>
-						<div class="proj-meta"><span>by {p.by}</span><span class="tag {TYPES[p.type].tag}">{TYPES[p.type].label}</span></div>
-					</div>
-				</a>
-			{/each}
+			{#each shown as p (p.id ?? p.img)}{@render card(p)}{/each}
 			<article class="proj proj--empty">
 				<span class="plus">+</span>
 				<h3>Your project!!</h3>
@@ -247,7 +267,7 @@
 					<span class="av">{initials(m.name)}</span>
 					<div class="m-name"><b>{m.name}</b><span class="role {m.exec ? 'role--exec' : 'role--member'}">{m.role}</span></div>
 					<div class="m-projects">
-						{#each m.projects as url}<a href={url} target="_blank" rel="noopener">{projectName(url)}</a>{:else}<span class="none">building something soon?</span>{/each}
+						{#each m.projects as url}<a href={url} target={url.startsWith('#') ? undefined : '_blank'} rel="noopener">{projectName(url)}</a>{:else}<span class="none">building something soon?</span>{/each}
 					</div>
 					{#if m.github}<a class="m-gh" href="https://github.com/{m.github}" target="_blank" rel="noopener">@{m.github}</a>{/if}
 				</div>
@@ -261,53 +281,34 @@
 	</div>
 </section>
 
-<section class="section gallery halftone">
-	<img src="/assets/deco/cat-hoodie.webp" alt="" aria-hidden="true" loading="lazy" style="position:absolute;right:-30px;top:20px;width:240px;opacity:.9">
-	<div class="wrap">
-		<h2 class="section-title"><span class="echo" data-echo="Free trinkets!!">Free trinkets!!</span></h2>
-		<p class="section-lede">Sign up and pick a 3D printed keychain! New designs every meeting. Got an idea? Tell an exec and we might print it!!</p>
-
-		{#each trinketGroups as group}
-			<div class="gal-group">
-				<h3>{group.title}</h3>
-				<div class="gal">
-					{#each group.items as [img, name, sub, white]}
-						<figure><img src="/assets/trinkets/{img}.webp" alt={name} loading="lazy" style={white ? 'background:#fff;object-fit:contain' : undefined}><figcaption>{name}<small>{sub}</small></figcaption></figure>
-					{/each}
-				</div>
-			</div>
-		{/each}
-	</div>
-</section>
-
 <section class="section more">
 	<div class="wrap">
-		<h2 class="section-title"><span class="echo" data-echo="First meetings!">First meetings!</span></h2>
+		<h2 class="section-title" id="meetings"><span class="echo" data-echo="Meetings!">Meetings!</span></h2>
+		<p class="section-lede">Click a meeting for its instructions.</p>
 		<div class="idea-grid">
-			<div class="idea"><b>01 · LED heart breadboard</b><span>Your first circuit, as a speed build. Fastest build wins a $10 Tims card!</span></div>
-			<div class="idea"><b>02 · Smash / Mario Kart tourney</b><span>Easy entry, bracket style. Prize for the winner!!</span></div>
-			<div class="idea"><b>03 · LED coin cell keychain</b><span>Learn to solder and design your own case.</span></div>
+			{#each meetings as m}
+				<svelte:element this={m.href ? 'a' : 'div'} class="idea" href={m.href}><b>{String(m.n).padStart(2, '0')} · {m.title}{m.href ? ' →' : ''}</b><span>{m.desc}</span></svelte:element>
+			{/each}
 		</div>
 
 		<h2 class="board-title" style="margin-top:56px"><span class="echo" data-echo="Competitions">Competitions</span></h2>
 		<div class="ladders ladders--page">
-			<div class="ladder"><div class="path"><b><a class="ext" href="https://cemc.uwaterloo.ca/contests/ccc" target="_blank" rel="noopener">CCC</a></b><i>→</i><span><a class="ext" href="https://cemc.uwaterloo.ca/contests/ccc" target="_blank" rel="noopener">CCO</a></span><i>→</i><span><a class="ext" href="https://ioinformatics.org/" target="_blank" rel="noopener">IOI</a></span></div><p>Certificate of Distinction for the top 25%. Top ~20 in Canada go to the CCO.</p></div>
-			<div class="ladder"><div class="path"><b><a class="ext" href="https://www.peelsciencefair.ca/" target="_blank" rel="noopener">Peel Science Fair</a></b><i>→</i><span><a class="ext" href="https://youthscience.ca/science-fairs/cwsf/" target="_blank" rel="noopener">CWSF</a></span><i>→</i><span><a class="ext" href="https://www.societyforscience.org/isef/" target="_blank" rel="noopener">ISEF</a></span></div><p>CWSF medals and ~$2M in prizes + scholarships. ISEF gives out $7M+.</p></div>
-			<div class="ladder"><div class="path"><b><a class="ext" href="https://www.peelschools.org/peel-skills-challenge" target="_blank" rel="noopener">Peel Skills</a></b><i>→</i><span><a class="ext" href="https://www.skillsontario.com/" target="_blank" rel="noopener">Skills Ontario</a></span><i>→</i><span><a class="ext" href="https://www.skillscompetencescanada.com/" target="_blank" rel="noopener">Skills Canada</a></span></div><p>Gold, silver and bronze medals, plus $1,000 Skills Ontario scholarships.</p></div>
-			<div class="ladder ladder--red"><div class="path"><b><a class="ext" href="https://www.fraserhacks.dev/" target="_blank" rel="noopener">FraserHacks</a></b></div><p>Our own hackathon. Prizes for the winning teams.</p></div>
+			<div class="ladder"><div class="path"><b><a class="ext" href="https://cemc.uwaterloo.ca/contests/ccc" target="_blank" rel="noopener">CCC</a></b><i>→</i><span><a class="ext" href="https://cemc.uwaterloo.ca/contests/ccc" target="_blank" rel="noopener">CCO</a></span><i>→</i><span><a class="ext" href="https://ioinformatics.org/" target="_blank" rel="noopener">IOI</a></span></div><p class="date">CCC Feb 17, 2027 · CCO usually late May · IOI Sep 12–19, 2027</p><p>Certificate of Distinction for the top 25%. Top ~20 in Canada go to the CCO.</p></div>
+			<div class="ladder"><div class="path"><b><a class="ext" href="https://www.peelsciencefair.ca/" target="_blank" rel="noopener">Peel Science Fair</a></b><i>→</i><span><a class="ext" href="https://youthscience.ca/science-fairs/cwsf/" target="_blank" rel="noopener">CWSF</a></span><i>→</i><span><a class="ext" href="https://www.societyforscience.org/isef/" target="_blank" rel="noopener">ISEF</a></span></div><p class="date">Peel usually April · CWSF May 29 – Jun 5, 2027 · ISEF May 8–14, 2027</p><p>CWSF medals and ~$2M in prizes + scholarships. ISEF gives out $7M+.</p></div>
+			<div class="ladder"><div class="path"><b><a class="ext" href="https://www.peelschools.org/peel-skills-challenge" target="_blank" rel="noopener">Peel Skills</a></b><i>→</i><span><a class="ext" href="https://www.skillsontario.com/" target="_blank" rel="noopener">Skills Ontario</a></span><i>→</i><span><a class="ext" href="https://www.skillscompetencescanada.com/" target="_blank" rel="noopener">Skills Canada</a></span></div><p class="date">Peel usually spring · Skills Ontario usually early May · Skills Canada May 27–28, 2027</p><p>Gold, silver and bronze medals, plus $1,000 Skills Ontario scholarships.</p></div>
+			<div class="ladder ladder--red"><div class="path"><b><a class="ext" href="https://www.fraserhacks.dev/" target="_blank" rel="noopener">FraserHacks</a></b></div><p class="date">Date TBA</p><p>Our own hackathon. Prizes for the winning teams.</p></div>
 		</div>
 		<div class="idea-grid" style="margin-top:14px">
-			<a class="idea ext" href="https://www.mlh.com/seasons/2027/events" target="_blank" rel="noopener"><b>Local hackathons</b><span>Weekend build sprints around the GTA. We go as a group.</span></a>
-			<a class="idea ext" href="https://hackthenorth.com/" target="_blank" rel="noopener"><b>Hack the North</b><span>Canada's biggest hackathon, at Waterloo.</span></a>
-			<a class="idea ext" href="https://www.jamhacks.ca/" target="_blank" rel="noopener"><b>JAMHacks</b><span>High school hackathon in Waterloo!</span></a>
-			<a class="idea ext" href="https://hackthe6ix.com/" target="_blank" rel="noopener"><b>Hack the 6ix</b><span>Toronto's summer hackathon.</span></a>
-			<a class="idea ext" href="https://www.deltahacks.com/" target="_blank" rel="noopener"><b>DeltaHacks</b><span>McMaster's hackathon in Hamilton.</span></a>
-			<a class="idea ext" href="https://www.hackwestern.com/" target="_blank" rel="noopener"><b>Hack Western</b><span>Western University, London ON.</span></a>
-			<a class="idea ext" href="https://www.uottahack.ca/" target="_blank" rel="noopener"><b>uOttaHack</b><span>University of Ottawa's hackathon.</span></a>
-			<a class="idea ext" href="https://hiskule.skule.ca/" target="_blank" rel="noopener"><b>U of T HS Design</b><span>Engineering design challenge run by U of T.</span></a>
-			<a class="idea ext" href="https://engineering.ontariotechu.ca/outreach/teacher-programs/robotics_competition/index.php" target="_blank" rel="noopener"><b>Ontario Tech Robotics</b><span>Build and run a robot against other schools.</span></a>
-			<a class="idea ext" href="https://www.mechmania.ca/" target="_blank" rel="noopener"><b>Waterloo MechMania</b><span>Student-run robotics competition for Waterloo Region schools.</span></a>
-			<a class="idea ext" href="https://www.samsung.com/ca/solvefortomorrow/" target="_blank" rel="noopener"><b>Samsung Solve for Tomorrow</b><span>Use tech to solve a problem in your community.</span></a>
+			<a class="idea ext" href="https://www.mlh.com/seasons/2027/events" target="_blank" rel="noopener"><b>Local hackathons</b><span>Weekend build sprints around the GTA. We go as a group.</span><em class="date">Year-round</em></a>
+			<a class="idea ext" href="https://hackthenorth.com/" target="_blank" rel="noopener"><b>Hack the North</b><span>Canada's biggest hackathon, at Waterloo.</span><em class="date">Usually mid Sep</em></a>
+			<a class="idea ext" href="https://www.jamhacks.ca/" target="_blank" rel="noopener"><b>JAMHacks</b><span>High school hackathon in Waterloo!</span><em class="date">Usually June</em></a>
+			<a class="idea ext" href="https://hackthe6ix.com/" target="_blank" rel="noopener"><b>Hack the 6ix</b><span>Toronto's summer hackathon.</span><em class="date">Usually July</em></a>
+			<a class="idea ext" href="https://www.deltahacks.com/" target="_blank" rel="noopener"><b>DeltaHacks</b><span>McMaster's hackathon in Hamilton.</span><em class="date">Jan 9–10, 2027</em></a>
+			<a class="idea ext" href="https://www.uottahack.ca/" target="_blank" rel="noopener"><b>uOttaHack</b><span>University of Ottawa's hackathon.</span><em class="date">Usually Jan / Feb</em></a>
+			<a class="idea ext" href="https://hiskule.skule.ca/" target="_blank" rel="noopener"><b>U of T HS Design</b><span>Engineering design challenge run by U of T.</span><em class="date">Usually November</em></a>
+			<a class="idea ext" href="https://engineering.ontariotechu.ca/outreach/teacher-programs/robotics_competition/index.php" target="_blank" rel="noopener"><b>Ontario Tech Robotics</b><span>Build and run a robot against other schools.</span><em class="date">Usually mid November</em></a>
+			<a class="idea ext" href="https://www.mechmania.ca/" target="_blank" rel="noopener"><b>Waterloo MechMania</b><span>Student-run robotics competition for Waterloo Region schools.</span><em class="date">Usually June</em></a>
+			<a class="idea ext" href="https://www.samsung.com/ca/solvefortomorrow/" target="_blank" rel="noopener"><b>Samsung Solve for Tomorrow</b><span>Use tech to solve a problem in your community.</span><em class="date">Entries usually Jan – Feb</em></a>
 		</div>
 
 		<h2 class="board-title" style="margin-top:56px"><span class="echo" data-echo="Also coming up!">Also coming up!</span></h2>
@@ -334,16 +335,25 @@
 				<li>CS, engineering + more</li>
 			</ul>
 		</div>
+	</div>
+</section>
 
-		<h2 class="board-title"><span class="echo" data-echo="What would you build?!">What would you build?!</span></h2>
-		<div class="notes">
-			<div class="note">a robot that brings me snacks</div>
-			<div class="note">rhythm game but you play it with a guitar</div>
-			<div class="note">a website that tells me when the caf has fries</div>
-			<div class="note">custom mechanical keyboard</div>
-			<div class="note">drone!!!</div>
-			<div class="note note--add">+ What would <b>you</b> build?<br>Let us know!!</div>
-		</div>
+<section class="section gallery halftone">
+	<img src="/assets/deco/cat-hoodie.webp" alt="" aria-hidden="true" loading="lazy" style="position:absolute;right:-30px;top:20px;width:240px;opacity:.9">
+	<div class="wrap">
+		<h2 class="section-title"><span class="echo" data-echo="Free trinkets!!">Free trinkets!!</span></h2>
+		<p class="section-lede">Sign up and pick a 3D printed keychain! New designs every meeting. Got an idea? Tell an exec and we might print it!!</p>
+
+		{#each trinketGroups as group}
+			<div class="gal-group">
+				<h3>{group.title}</h3>
+				<div class="gal">
+					{#each group.items as [img, name, sub, white]}
+						<figure><img src="/assets/trinkets/{img}.webp" alt={name} loading="lazy" style={white ? 'background:#fff;object-fit:contain' : undefined}><figcaption>{name}<small>{sub}</small></figcaption></figure>
+					{/each}
+				</div>
+			</div>
+		{/each}
 	</div>
 </section>
 
