@@ -3,7 +3,7 @@
 	import { SITE_URL } from '#lib/data.js';
 
 	const DESCRIPTION = 'Meeting 1: LED heart breadboard speed build. Breadboard basics, LED polarity and how not to burn your LEDs.';
-	const IMG = '/assets/meetings/1';
+	const IMG = '/assets/meeting1';
 
 	let { data } = $props();
 
@@ -61,10 +61,10 @@
 <svelte:head>
 	<title>Meeting 1: LED heart | Fraser Comp Sci Club</title>
 	<meta name="description" content={DESCRIPTION}>
-	<link rel="canonical" href="{SITE_URL}/meetings/1">
+	<link rel="canonical" href="{SITE_URL}/meeting1">
 	<meta property="og:title" content="Meeting 1: LED heart | Fraser Comp Sci Club">
 	<meta property="og:description" content={DESCRIPTION}>
-	<meta property="og:url" content="{SITE_URL}/meetings/1">
+	<meta property="og:url" content="{SITE_URL}/meeting1">
 	<meta property="og:image" content="{SITE_URL}/assets/og.png">
 </svelte:head>
 

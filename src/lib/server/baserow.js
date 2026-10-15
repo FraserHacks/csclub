@@ -78,22 +78,31 @@ export async function listProjects({ hidden = false } = {}) {
 		rows({ size: '200', include: 'Name' })
 	]);
 	const names = new Map(members.results.map((m) => [m.id, m.Name?.trim() ?? '']));
-	return results.map((r) => ({
-		id: r.id,
-		name: r.Name?.trim() ?? '',
-		desc: r.Description?.trim() ?? '',
-		type: ['hw', 'sw', 'both'].includes(r.Type) ? r.Type : 'hw',
-		memberId: Number(r.Member) || null,
-		by: names.get(Number(r.Member)) ?? '',
-		src: r.Image ?? '',
-		href: r.Link?.trim() ?? '',
-		meeting: Number(r.Meeting) || null,
-		hidden: Boolean(r.Hidden)
-	})).filter((p) => p.name && p.src).reverse();
+	const and = new Intl.ListFormat('en');
+	return results.map((r) => {
+		const memberIds = String(r.Member ?? '').split(/\D+/).map(Number).filter(Boolean);
+		return {
+			id: r.id,
+			name: r.Name?.trim() ?? '',
+			desc: r.Description?.trim() ?? '',
+			type: ['hw', 'sw', 'both'].includes(r.Type) ? r.Type : 'hw',
+			memberIds,
+			by: and.format(memberIds.map((id) => names.get(id)).filter(Boolean)),
+			src: r.Image ?? '',
+			frame: r.Frame?.trim() || 'shot',
+			href: r.Link?.trim() ?? '',
+			meeting: Number(r.Meeting) || null,
+			hidden: Boolean(r.Hidden)
+		};
+	}).filter((p) => p.name && p.src).reverse();
 }
 
 export async function createProject(project) {
 	return rows({}, { method: 'POST', body: JSON.stringify(project) }, PROJECTS);
+}
+
+export async function updateProject(id, fields) {
+	return rows({}, { method: 'PATCH', body: JSON.stringify(fields) }, `${PROJECTS}/${id}`);
 }
 
 export async function getProject(id) {

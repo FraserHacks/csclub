@@ -33,7 +33,7 @@ Build cool things, win prizes, compete, and take home a 3D printed trinket every
 
 ## Meetings
 
-1. **[LED heart breadboard](https://cs.fraserhacks.dev/meetings/1):** your first circuit, as a speed build. Fastest build wins a $10 Tims card!
+1. **[LED heart breadboard](https://cs.fraserhacks.dev/meeting1):** your first circuit, as a speed build. Fastest build wins a $10 Tims card!
 2. **Smash / Mario Kart tourney:** easy entry, bracket style. Prize for the winner!
 3. **LED coin cell keychain:** learn to solder and design your own case.
 

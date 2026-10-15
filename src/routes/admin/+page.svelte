@@ -6,9 +6,14 @@
 	let image = $state();
 	let tab = $state('add');
 	$effect.pre(() => {
-		if (form?.deleted) tab = 'projects';
+		if (form?.deleted || form?.credited || (form?.error && !('name' in form))) tab = 'projects';
+		chosen = form?.success ? [] : (form?.members ?? []).map(String);
+		editing = null;
 	});
 	let memberQuery = $state('');
+	let chosen = $state([]);
+	let editing = $state(null);
+	let editChosen = $state([]);
 
 	const tabs = $derived([
 		['add', 'Add'],
@@ -19,7 +24,16 @@
 		const q = memberQuery.trim().toLowerCase();
 		return (data.members ?? []).filter((m) => !q || [m.name, m.email, m.github].some((s) => s.toLowerCase().includes(q)));
 	});
-	const builds = (id) => data.projects.filter((p) => p.memberId === id).length;
+	const builds = (id) => data.projects.filter((p) => p.memberIds.includes(id)).length;
+	const memberName = (id) => data.members.find((m) => String(m.id) === id)?.name;
+	function choose(list, e) {
+		if (e.currentTarget.value) list.push(e.currentTarget.value);
+		e.currentTarget.value = '';
+	}
+	function edit(p) {
+		editChosen = p.memberIds.map(String);
+		editing = editing === p.id ? null : p.id;
+	}
 	const meetingName = (n) => data.meetings.find((m) => m.n === n)?.title;
 
 	const MAX_SIDE = 1600;
@@ -48,6 +62,23 @@
 	}
 </script>
 
+{#snippet picker(list)}
+	<label>Built by
+		<select onchange={(e) => choose(list, e)}>
+			<option value="">{list.length ? 'add another member' : 'pick a member'}</option>
+			{#each data.members.filter((m) => m.name && !m.hidden && !list.includes(String(m.id))) as m}<option value={String(m.id)}>{m.name}</option>{/each}
+		</select>
+	</label>
+	{#if list.length}
+		<div class="chosen">
+			{#each list as id, i (id)}
+				<button type="button" class="chip" aria-label="Remove {memberName(id)}" onclick={() => list.splice(i, 1)}>{memberName(id)} ×</button>
+				<input type="hidden" name="member" value={id}>
+			{/each}
+		</div>
+	{/if}
+{/snippet}
+
 <svelte:window onpageshow={() => (sending = false)} />
 
 <svelte:head>
@@ -75,11 +106,13 @@
 				{#each tabs as [value, label]}<button class="tab" aria-pressed={tab === value} onclick={() => (tab = value)}>{label}</button>{/each}
 			</div>
 			{#if form?.deleted}<p class="done">Deleted {form.deleted}.</p>{/if}
+			{#if form?.credited}<p class="done">Updated credit for {form.credited}.</p>{/if}
+			{#if tab === 'projects' && form?.error}<p class="err" role="alert">{form.error}</p>{/if}
 
 			{#if tab === 'add'}
 			{#if !data.ready}<p class="err">Set BASEROW_PROJECTS_TABLE and BLOB_READ_WRITE_TOKEN to add projects.</p>{/if}
 			{#if form?.success}
-				<p class="done">Added {form.success}!{#if form.meeting} <a href="/meetings/{form.meeting}">See meeting {form.meeting} →</a>{/if}</p>
+				<p class="done">Added {form.success}!{#if form.meeting} <a href="/meeting{form.meeting}">See meeting {form.meeting} →</a>{/if}</p>
 			{/if}
 
 			<form method="POST" action="?/add" enctype="multipart/form-data" onsubmit={() => (sending = true)}>
@@ -93,12 +126,7 @@
 				</div>
 
 				<label>Project name<input name="name" required value={form?.success ? '' : (form?.name ?? '')}></label>
-				<label>Built by
-					<select name="member" required value={form?.success ? '' : String(form?.member ?? '')}>
-						<option value="">pick a member</option>
-						{#each data.members.filter((m) => m.name && !m.hidden) as m}<option value={String(m.id)}>{m.name}</option>{/each}
-					</select>
-				</label>
+				{@render picker(chosen)}
 				<label>Meeting
 					<select name="meeting" value={String(form?.meeting ?? '')}>
 						<option value="">not from a meeting</option>
@@ -116,7 +144,7 @@
 				<label>Link <small>optional</small><input name="link" inputmode="url" placeholder="https://github.com/..." value={form?.success ? '' : (form?.link ?? '')}></label>
 
 				{#if form?.error}<p class="err" role="alert">{form.error}</p>{/if}
-				<button class="btn btn--solid" disabled={sending || resizing || !preview}>{sending ? 'Uploading...' : resizing ? 'Loading photo...' : 'Add project →'}</button>
+				<button class="btn btn--solid" disabled={sending || resizing || !preview || !chosen.length}>{sending ? 'Uploading...' : resizing ? 'Loading photo...' : 'Add project →'}</button>
 			</form>
 
 			{:else if tab === 'projects'}
@@ -129,10 +157,20 @@
 								<span>by {p.by || '?'} · {p.type}{#if p.meeting} · meeting {p.meeting}: {meetingName(p.meeting)}{/if}{#if p.hidden} · <i>hidden</i>{/if}</span>
 								{#if p.href}<a href={p.href} target="_blank" rel="noopener">{p.href}</a>{/if}
 							</div>
-							<form method="POST" action="?/delete" onsubmit={(e) => confirm(`Delete ${p.name}? This can't be undone.`) || e.preventDefault()}>
-								<input type="hidden" name="id" value={p.id}>
-								<button class="del">Delete</button>
-							</form>
+							<div class="actions">
+								<button class="del" aria-expanded={editing === p.id} onclick={() => edit(p)}>Credit</button>
+								<form method="POST" action="?/delete" onsubmit={(e) => confirm(`Delete ${p.name}? This can't be undone.`) || e.preventDefault()}>
+									<input type="hidden" name="id" value={p.id}>
+									<button class="del">Delete</button>
+								</form>
+							</div>
+							{#if editing === p.id}
+								<form class="credit" method="POST" action="?/credit">
+									<input type="hidden" name="id" value={p.id}>
+									{@render picker(editChosen)}
+									<button class="del" disabled={!editChosen.length}>Save credit</button>
+								</form>
+							{/if}
 						</div>
 					{:else}
 						<p class="empty">No projects yet.</p>
@@ -179,6 +217,12 @@
 	.item b { display: block; font-size: 19px; text-transform: uppercase; }
 	.item span, .item a { display: block; font-family: var(--mono); font-size: 13px; color: #5d4449; overflow-wrap: anywhere; }
 	.del { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 14px; padding: 8px 12px 5px; border-radius: 5px; border: 2px solid var(--red); background: var(--white); color: var(--red); cursor: pointer; }
+	.actions { display: flex; gap: 6px; }
+	.list .credit { grid-column: 1 / -1; display: grid; gap: 10px; justify-items: start; }
+	.credit label { width: 100%; }
+	.credit select { color: var(--ink); background: var(--white); border-color: #d7c3c7; }
+	.credit .chip { background: var(--ink); color: var(--white); margin-top: 6px; }
+	.del:disabled { opacity: .5; cursor: default; }
 	.del:hover { background: var(--red); color: var(--white); }
 	.empty { margin-top: 10px; font-family: var(--mono); }
 	.search { margin-top: 20px; max-width: 320px; }
@@ -188,7 +232,7 @@
 	th { font-family: var(--mono); font-size: 12px; text-transform: uppercase; background: var(--ink); color: var(--white); }
 	td a { color: var(--red-deep); }
 	tr.hidden td { opacity: .5; }
-	@media (max-width: 520px) { .item { grid-template-columns: 72px 1fr; } .item img { width: 72px; } .item form { grid-column: 1 / -1; } }
+	@media (max-width: 520px) { .item { grid-template-columns: 72px 1fr; } .item img { width: 72px; } .item .actions { grid-column: 1 / -1; } }
 	.brand img { width: 56px; margin-bottom: 18px; }
 	.section-title { font-size: clamp(44px, 10vw, 80px); }
 	form { display: grid; gap: 14px; margin-top: 28px; }
@@ -198,6 +242,8 @@
 	input::placeholder { color: rgba(255,255,255,.5); }
 	input:focus, select:focus { outline: none; border-color: var(--white); }
 	option { color: var(--ink); }
+	.chosen { display: flex; flex-wrap: wrap; gap: 6px; margin-top: -6px; }
+	.chip { font-family: var(--mono); font-size: 14px; font-weight: 700; padding: 6px 10px; border-radius: 5px; border: none; background: var(--white); color: var(--ink); cursor: pointer; }
 	.photo { display: grid; gap: 10px; }
 	.photo > img, .photo > span { width: 100%; aspect-ratio: 4 / 3; border-radius: 8px; background: rgba(0,0,0,.18); object-fit: contain; }
 	.photo > span { display: grid; place-items: center; font-family: var(--mono); border: 2px dashed rgba(255,255,255,.5); }

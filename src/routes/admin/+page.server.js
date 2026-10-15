@@ -3,7 +3,7 @@ import { del, put } from '@vercel/blob';
 import { BLOB_READ_WRITE_TOKEN } from '$app/env/private';
 import { meetings } from '#lib/data.js';
 import { checkPassword, hasAdmin, isAdmin, login, logout } from '#lib/server/admin.js';
-import { createProject, deleteProject, getProject, hasProjects, listAllMembers, listProjects } from '#lib/server/baserow.js';
+import { createProject, deleteProject, getProject, hasProjects, listAllMembers, listProjects, updateProject } from '#lib/server/baserow.js';
 
 const MAX_IMAGE = 4 * 1024 * 1024;
 
@@ -39,13 +39,13 @@ export const actions = {
 			name: String(form.get('name') ?? '').trim(),
 			desc: String(form.get('desc') ?? '').trim(),
 			type: String(form.get('type') ?? 'hw'),
-			member: Number(form.get('member')) || null,
+			members: [...new Set(form.getAll('member').map(Number).filter(Boolean))],
 			meeting: Number(form.get('meeting')) || null,
 			link: String(form.get('link') ?? '').trim()
 		};
 		const image = form.get('image');
 
-		if (!values.name || !values.member) return fail(400, { ...values, error: 'Needs a name and a member.' });
+		if (!values.name || !values.members.length) return fail(400, { ...values, error: 'Needs a name and a member.' });
 		if (!(image instanceof File) || !image.size) return fail(400, { ...values, error: 'Needs a photo.' });
 		if (image.size > MAX_IMAGE) return fail(400, { ...values, error: 'Photo is too big.' });
 		if (values.link && !/^https?:\/\//.test(values.link)) return fail(400, { ...values, error: 'Link has to start with https://' });
@@ -62,7 +62,7 @@ export const actions = {
 				Name: values.name,
 				Description: values.desc,
 				Type: ['hw', 'sw', 'both'].includes(values.type) ? values.type : 'hw',
-				Member: values.member,
+				Member: values.members.join(','),
 				Image: url,
 				Link: values.link,
 				Meeting: values.meeting
@@ -73,6 +73,23 @@ export const actions = {
 		}
 
 		return { success: values.name, meeting: values.meeting };
+	},
+
+	credit: async ({ request, cookies }) => {
+		if (!isAdmin(cookies)) return fail(401, { error: 'Log in again.' });
+		const form = await request.formData();
+		const id = Number(form.get('id'));
+		const members = [...new Set(form.getAll('member').map(Number).filter(Boolean))];
+		if (!members.length) return fail(400, { error: 'Needs a member.' });
+		const project = id && (await getProject(id));
+		if (!project) return fail(404, { error: 'Project not found.' });
+		try {
+			await updateProject(id, { Member: members.join(',') });
+		} catch (e) {
+			console.error(e);
+			return fail(502, { error: 'Save failed. Try again.' });
+		}
+		return { credited: project.Name };
 	},
 
 	delete: async ({ request, cookies }) => {

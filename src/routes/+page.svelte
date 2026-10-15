@@ -6,7 +6,6 @@
 		CLASSROOM_CODE,
 		INSTAGRAM,
 		TYPES,
-		projects,
 		meetings,
 		carousel,
 		boothTrinkets,
@@ -28,7 +27,10 @@
 		['sw', 'Software']
 	];
 
-	const allProjects = $derived([...projects, ...data.dbProjects.filter((p) => !p.meeting)]);
+	const allProjects = $derived(data.dbProjects.filter((p) => !p.meeting));
+	const featured = $derived(
+		carousel.map((c) => ({ ...data.dbProjects.find((p) => p.href === c.href), ...c })).filter((p) => p.src)
+	);
 	const meetingBuilds = $derived(
 		meetings.map((m) => ({ ...m, builds: data.dbProjects.filter((p) => p.meeting === m.n) })).filter((m) => m.builds.length)
 	);
@@ -51,7 +53,7 @@
 			.toUpperCase();
 
 	const projectName = (url) => {
-		const p = [...projects, ...data.dbProjects].find((p) => (p.href || `#p${p.id}`).toLowerCase() === url.toLowerCase());
+		const p = [...featured, ...data.dbProjects].find((p) => (p.href || `#p${p.id}`).toLowerCase() === url.toLowerCase());
 		return p ? (p.short ?? p.name) : url.replace(/\/+$/, '').split('/').pop();
 	};
 
@@ -70,6 +72,7 @@
 
 	onMount(() => {
 		const items = [...track.children];
+		if (!items.length) return;
 		const n = items.length / 3;
 		let i = n;
 
@@ -176,7 +179,7 @@
 		</div>
 
 		<div class="proj-carousel">
-			<div class="pc-viewport" bind:this={vp}><div class="pc-track" bind:this={track}>{#each [0, 1, 2] as copy}{#each carousel as p}<a class="pc-item" href={p.href} target="_blank" rel="noopener" aria-hidden={copy !== 1 ? 'true' : undefined} tabindex={copy !== 1 ? -1 : undefined}><div class="frame"><img src="/assets/projects/{p.img}.webp" alt=""></div><span class="pc-name">{p.short ?? p.name}<small>by {p.by}</small></span></a>{/each}{/each}</div></div>
+			<div class="pc-viewport" bind:this={vp}><div class="pc-track" bind:this={track}>{#each [0, 1, 2] as copy}{#each featured as p}<a class="pc-item" href={p.href} target="_blank" rel="noopener" aria-hidden={copy !== 1 ? 'true' : undefined} tabindex={copy !== 1 ? -1 : undefined}><div class="frame"><img src={p.src} alt=""></div><span class="pc-name">{p.short ?? p.name}<small>by {p.by}</small></span></a>{/each}{/each}</div></div>
 			<a class="built-by" href="#projects">Built by JFSS students!! ↓</a>
 		</div>
 	</div>
@@ -184,7 +187,7 @@
 
 {#snippet card(p)}
 	<svelte:element this={p.href ? 'a' : 'article'} class="proj" id={p.id ? `p${p.id}` : undefined} href={p.href || undefined} target={p.href ? '_blank' : undefined} rel={p.href ? 'noopener' : undefined} data-type={p.type}>
-		<div class="proj-img proj-img--{p.frame ?? 'shot'}"><img src={p.src ?? `/assets/projects/${p.img}.webp`} alt={p.name} loading="lazy"></div>
+		<div class="proj-img proj-img--{p.frame ?? 'shot'}"><img src={p.src} alt={p.name} loading="lazy"></div>
 		<div class="proj-body">
 			<h3>{p.name}</h3>
 			{#if p.desc}<p>{p.desc}</p>{/if}
@@ -205,7 +208,7 @@
 				<p>Start here. We build these at meetings.</p>
 			</div>
 			<div class="proj-grid">
-				<a class="proj" href="/meetings/1">
+				<a class="proj" href="/meeting1">
 					<div class="proj-img proj-img--shot"><img src="/assets/projects/led-heart.webp" alt="Red LEDs arranged in a heart on a board" loading="lazy"></div>
 					<div class="proj-body">
 						<h3>LED breadboard heart</h3>
@@ -246,7 +249,7 @@
 		</div>
 
 		<div class="proj-grid">
-			{#each shown as p (p.id ?? p.img)}{@render card(p)}{/each}
+			{#each shown as p (p.id)}{@render card(p)}{/each}
 			<article class="proj proj--empty">
 				<span class="plus">+</span>
 				<h3>Your project!!</h3>

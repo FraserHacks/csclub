@@ -16,9 +16,8 @@ export async function load() {
 		hasProjects() ? safe(listProjects, []) : []
 	]);
 	for (const p of dbProjects) {
-		const m = members.find((m) => m.id === p.memberId);
 		const url = p.href || `#p${p.id}`;
-		if (m && !m.projects.includes(url)) m.projects.push(url);
+		for (const m of members.filter((m) => p.memberIds.includes(m.id))) if (!m.projects.includes(url)) m.projects.push(url);
 	}
 	return { members, dbProjects };
 }
