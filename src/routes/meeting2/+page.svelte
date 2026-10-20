@@ -49,12 +49,7 @@
 
 	const clear = (k) => (missing = missing.filter((m) => m !== k));
 	const labels = { name: 'name', email: 'a valid email', skill: 'skill level', controller: 'controller' };
-	const facts = [
-		['$20', 'to the winner'],
-		['3', 'Switches'],
-		['2', 'Thursdays'],
-		['2', 'losses and you’re out']
-	];
+	const fighter = (f) => `https://www.smashbros.com/assets_v2/img/fighter/${f}/main.png`;
 </script>
 
 <svelte:window onpageshow={() => (sending = false)} />
@@ -68,24 +63,6 @@
 	<meta property="og:url" content="{SITE_URL}/meeting2">
 	<meta property="og:image" content="{SITE_URL}/assets/og.png">
 </svelte:head>
-
-{#snippet console()}
-	<svg viewBox="0 0 420 200" role="img" aria-label="A Switch showing a 1v1">
-		<rect x="4" y="14" width="78" height="172" rx="38" fill="#ff4b5c" />
-		<rect x="338" y="14" width="78" height="172" rx="38" fill="var(--cyan)" />
-		<rect x="70" y="14" width="280" height="172" rx="12" fill="var(--ink)" />
-		<rect x="86" y="28" width="248" height="144" rx="4" fill="#3b2a2f" />
-		<circle cx="43" cy="62" r="16" fill="var(--ink)" />
-		<g fill="var(--ink)"><circle cx="43" cy="112" r="7" /><circle cx="43" cy="144" r="7" /><circle cx="27" cy="128" r="7" /><circle cx="59" cy="128" r="7" /></g>
-		<circle cx="377" cy="138" r="16" fill="var(--ink)" />
-		<g fill="var(--ink)"><circle cx="377" cy="56" r="7" /><circle cx="377" cy="88" r="7" /><circle cx="361" cy="72" r="7" /><circle cx="393" cy="72" r="7" /></g>
-		<text x="210" y="96" text-anchor="middle" font-family="League Spartan, sans-serif" font-weight="800" font-size="54" fill="var(--white)">VS</text>
-		<text x="126" y="156" text-anchor="middle" font-family="Space Mono, monospace" font-weight="700" font-size="26" fill="#ff4b5c">0%</text>
-		<text x="294" y="156" text-anchor="middle" font-family="Space Mono, monospace" font-weight="700" font-size="26" fill="var(--cyan)">0%</text>
-		<g fill="#ff4b5c"><circle cx="106" cy="120" r="5" /><circle cx="120" cy="120" r="5" /><circle cx="134" cy="120" r="5" /></g>
-		<g fill="var(--cyan)"><circle cx="286" cy="120" r="5" /><circle cx="300" cy="120" r="5" /><circle cx="314" cy="120" r="5" /></g>
-	</svg>
-{/snippet}
 
 <div class="bar">
 	<a class="brand" href="/#meetings"><img src="/assets/logo_small.webp" alt="Fraser Comp Sci Club" width="36" height="36"><span>Meeting 02</span></a>
@@ -106,15 +83,13 @@
 			</div>
 			<div class="art">
 				<img class="sparkles" src="/assets/deco/sparkles.webp" alt="">
-				{@render console()}
+				<img class="f f--pikachu" src={fighter('pikachu')} alt="Pikachu">
+				<img class="f f--mario" src={fighter('mario')} alt="Mario">
+				<img class="f f--kirby" src={fighter('kirby')} alt="Kirby">
 				<div class="sticker"><b>$20</b><span>to the winner</span></div>
 			</div>
 		</div>
 	</header>
-
-	<div class="facts">
-		{#each facts as [big, small]}<div><b>{big}</b><span>{small}</span></div>{/each}
-	</div>
 
 	<div class="guide">
 		<section class="row">
@@ -124,6 +99,7 @@
 				<p>Everyone gets split into pools, sized by how many people sign up. Each pool is <b>double elimination, best of 1</b>.</p>
 				<p>Pools play down to the <b>top 16</b>.</p>
 				<div class="sets"><i></i><i class="x"></i></div>
+				<img class="peek" src={fighter('link')} alt="Link" loading="lazy">
 			</div>
 			<div class="card">
 				<span class="when">Week 2 · Thu Nov 5</span>
@@ -131,24 +107,17 @@
 				<p>A fresh double elimination bracket. Every set is <b>best of 3</b>, grand finals are <b>best of 5</b>.</p>
 				<p>Winner takes home <b>$20</b>!</p>
 				<div class="sets"><i></i><i></i><i class="x"></i></div>
-			</div>
-			<div class="card card--dark">
-				<span class="when">Both days</span>
-				<h2>3 Switches</h2>
-				<p>Match times are staggered so it doesn’t get crowded. Check the bracket here to see who you’re playing next.</p>
-				<p>No controller? We’ve got you, just say so when you sign up.</p>
+				<img class="peek" src={fighter('sonic')} alt="Sonic" loading="lazy">
 			</div>
 		</section>
 	</div>
 
 	<section class="section halftone signup-section" id="signup">
-		<img class="cat" src="/assets/deco/cat-hoodie.webp" alt="">
+		<img class="cat" src={fighter('steve')} alt="Steve" loading="lazy">
 		<div class="wrap split">
 			<div class="intro">
 				<h2 class="section-title"><span class="echo" data-echo="Sign up!">Sign up!</span></h2>
 				{#if data.count}<p class="count"><b>{data.count}</b> signed up so far</p>{/if}
-				<p>Already a member? Type your email first and we’ll fill in the rest.</p>
-				<p>Not a member? You can still play. Join the club after at <a href="/join">/join</a>.</p>
 			</div>
 
 			{#if form?.success}
@@ -208,42 +177,37 @@
 	.section-lede b { background: var(--red-dark); padding: 0 5px; }
 	.ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
 	.art { position: relative; }
-	.art svg { width: 100%; display: block; transform: rotate(-4deg); filter: drop-shadow(8px 10px 0 rgba(42, 26, 30, .35)); }
+	.art { min-height: clamp(260px, 32vw, 420px); }
+	.f { position: absolute; bottom: 0; height: auto; filter: drop-shadow(8px 10px 0 rgba(42, 26, 30, .3)); }
+	.f--pikachu { left: 0; width: 38%; bottom: 4%; }
+	.f--mario { left: 24%; width: 52%; z-index: 1; }
+	.f--kirby { right: 0; width: 34%; bottom: 8%; }
+	.sticker { z-index: 2; }
 	.art .sparkles { position: absolute; left: -24px; top: -36px; width: clamp(56px, 7vw, 96px); }
 	.sticker { position: absolute; right: -6px; bottom: -28px; display: grid; place-items: center; width: clamp(110px, 13vw, 150px); aspect-ratio: 1; border-radius: 50%; background: var(--white); color: var(--red); transform: rotate(10deg); box-shadow: 5px 5px 0 var(--ink); text-align: center; }
 	.sticker b { font-size: clamp(38px, 4.5vw, 54px); line-height: .8; margin-top: 10px; }
 	.sticker span { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--ink); margin-top: -18px; }
 
-	.facts { display: grid; grid-template-columns: repeat(4, 1fr); background: var(--ink); }
-	.facts div { padding: 18px var(--gutter) 14px; text-align: center; }
-	.facts div + div { border-left: 2px solid #4a3a3e; }
-	.facts b { display: block; font-size: clamp(32px, 4vw, 48px); line-height: 1; color: var(--cyan); }
-	.facts div:first-child b { color: var(--red-hot); }
-	.facts span { font-family: var(--mono); font-size: 13px; text-transform: uppercase; }
 
 	.guide { background: var(--cream); color: var(--ink); padding: clamp(40px, 5vw, 64px) var(--gutter); }
-	.row { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-	.card { position: relative; background: var(--white); border: 3px solid var(--ink); border-radius: var(--radius); padding: 22px 22px 56px; box-shadow: 6px 6px 0 var(--red); }
-	.card--dark { background: var(--ink); color: var(--white); box-shadow: 6px 6px 0 var(--cyan); padding-bottom: 22px; }
+	.row { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+	.card { position: relative; overflow: hidden; background: var(--white); border: 3px solid var(--ink); border-radius: var(--radius); padding: 22px 22px 56px; box-shadow: 6px 6px 0 var(--red); }
 	.when { font-family: var(--mono); font-weight: 700; font-size: 13px; text-transform: uppercase; color: #5d4449; }
-	.card--dark .when { color: var(--cyan); }
 	h2 { font-size: clamp(34px, 4vw, 52px); color: var(--red); margin: 6px 0 14px; }
-	.card--dark h2 { color: var(--white); }
 	.card p { font-size: 17px; line-height: 1.45; color: #4a3a3e; }
-	.card--dark p { color: #e9dfe1; }
 	.card p + p { margin-top: 10px; }
 	.card b { color: var(--ink); }
+	.peek { position: absolute; right: -10px; bottom: -30px; width: clamp(110px, 12vw, 170px); pointer-events: none; }
+	.card p, .card h2, .card .when { position: relative; z-index: 1; max-width: 78%; }
 	.sets { position: absolute; left: 22px; bottom: 20px; display: flex; gap: 6px; }
 	.sets i { width: 22px; height: 22px; border-radius: 50%; background: var(--red); }
 	.sets i.x { background: none; border: 3px solid var(--ink); position: relative; }
 	.sets i.x::after { content: "×"; position: absolute; inset: 0; display: grid; place-items: center; font-style: normal; font-weight: 800; font-size: 18px; line-height: 1; }
 
 	.signup-section { position: relative; overflow: hidden; background: linear-gradient(100deg, var(--red-hot) 0%, var(--red) 60%, var(--red-deep) 100%); padding: clamp(40px, 6vw, 80px) 0; }
-	.cat { position: absolute; left: -30px; bottom: -40px; width: clamp(160px, 18vw, 280px); opacity: .5; pointer-events: none; z-index: -1; }
+	.cat { position: absolute; left: -20px; bottom: -30px; width: clamp(160px, 18vw, 260px); opacity: .9; pointer-events: none; z-index: -1; }
 	.split { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: start; max-width: 1100px; }
 	.signup-section h2 { color: var(--white); font-size: clamp(48px, 8vw, 84px); margin: 0 0 18px; }
-	.intro p { font-size: 18px; line-height: 1.45; }
-	.intro p + p { margin-top: 12px; }
 	.count { font-family: var(--mono); text-transform: uppercase; font-size: 15px !important; }
 	.count b { display: inline-block; font-family: var(--display); font-size: 40px; background: var(--white); color: var(--red); padding: 4px 12px 0; border-radius: 6px; margin-right: 8px; vertical-align: middle; }
 	form { display: grid; gap: 14px; background: rgba(0,0,0,.14); border: 2px solid rgba(255,255,255,.35); border-radius: var(--radius); padding: clamp(18px, 3vw, 28px); }
@@ -276,11 +240,7 @@
 	@media (max-width: 900px) {
 		.row { grid-template-columns: 1fr; }
 		.hero, .split { grid-template-columns: 1fr; }
-		.art { max-width: 480px; margin: 12px auto 24px; }
-	}
-	@media (max-width: 600px) {
-		.facts { grid-template-columns: 1fr 1fr; }
-		.facts div:nth-child(3) { border-left: none; }
-		.facts div:nth-child(n + 3) { border-top: 2px solid #4a3a3e; }
+		.art { max-width: 480px; width: 100%; margin: 12px auto 24px; }
+		.cat { display: none; }
 	}
 </style>
