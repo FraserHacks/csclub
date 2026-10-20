@@ -1,13 +1,14 @@
 import { fail } from '@sveltejs/kit';
 import { SKILLS } from '#lib/data.js';
-import { getBracket, hasBlob, saveEntrant } from '#lib/server/tournament.js';
+import { countEntrants, getBracket, hasBlob, saveEntrant } from '#lib/server/tournament.js';
 
 export async function load() {
 	try {
-		return { bracket: await getBracket() };
+		const [bracket, count] = await Promise.all([getBracket(), hasBlob() ? countEntrants() : 0]);
+		return { bracket, count };
 	} catch (e) {
 		console.error(e);
-		return { bracket: null };
+		return { bracket: null, count: 0 };
 	}
 }
 

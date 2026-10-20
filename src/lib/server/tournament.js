@@ -29,10 +29,25 @@ export async function saveBracket(bracket) {
 	await write(`tournament/backups/${new Date().toISOString()}.json`, { bracket, entrants: await listEntrants() }, true);
 }
 
+const entrantId = (email) => createHash('sha256').update(`csclub:${email}`).digest('hex');
+
 // One blob per email so signups never race and signing up again overwrites
 export async function saveEntrant(entrant) {
-	const id = createHash('sha256').update(`csclub:${entrant.email}`).digest('hex');
+	const id = entrantId(entrant.email);
 	await write(`${ENTRANTS}${id}.json`, { ...entrant, id, at: new Date().toISOString() });
+}
+
+export const getEntrant = (email) => (hasBlob() ? read(`${ENTRANTS}${entrantId(email)}.json`) : null);
+
+export async function countEntrants() {
+	let count = 0;
+	let cursor;
+	do {
+		const page = await list({ prefix: ENTRANTS, cursor, token: BLOB_READ_WRITE_TOKEN });
+		count += page.blobs.length;
+		cursor = page.cursor;
+	} while (cursor);
+	return count;
 }
 
 export async function listEntrants() {

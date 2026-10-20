@@ -53,6 +53,11 @@ export async function emailExists(email) {
 	return count > 0;
 }
 
+export async function memberName(email) {
+	const { results } = await rows({ size: '1', include: 'Name,Email', ...(await filter(TABLE, 'Email', 'equal', email)) });
+	return results[0]?.Name?.trim() ?? '';
+}
+
 export async function createMember(member) {
 	return rows({}, { method: 'POST', body: JSON.stringify(member) });
 }
