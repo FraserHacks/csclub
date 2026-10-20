@@ -12,11 +12,11 @@ async function read(path) {
 	return res?.statusCode === 200 ? new Response(res.stream).json() : null;
 }
 
-const write = (path, value) =>
+const write = (path, value, backup = false) =>
 	put(path, JSON.stringify(value), {
 		access: 'public',
-		addRandomSuffix: false,
-		allowOverwrite: true,
+		addRandomSuffix: backup,
+		allowOverwrite: !backup,
 		cacheControlMaxAge: 60,
 		contentType: 'application/json',
 		token: BLOB_READ_WRITE_TOKEN
@@ -26,6 +26,7 @@ export const getBracket = () => (hasBlob() ? read(PATH) : null);
 
 export async function saveBracket(bracket) {
 	await write(PATH, bracket);
+	await write(`tournament/backups/${new Date().toISOString()}.json`, { bracket, entrants: await listEntrants() }, true);
 }
 
 // One blob per email so signups never race and signing up again overwrites

@@ -5,15 +5,15 @@
 	let sending = $state(false);
 	let image = $state();
 	let tab = $state('add');
+	let memberQuery = $state('');
+	let chosen = $state([]);
+	let editing = $state(null);
+	let editChosen = $state([]);
 	$effect.pre(() => {
 		if (form?.deleted || form?.credited || (form?.error && !('name' in form))) tab = 'projects';
 		chosen = form?.success ? [] : (form?.members ?? []).map(String);
 		editing = null;
 	});
-	let memberQuery = $state('');
-	let chosen = $state([]);
-	let editing = $state(null);
-	let editChosen = $state([]);
 
 	const tabs = $derived([
 		['add', 'Add'],

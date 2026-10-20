@@ -19,11 +19,10 @@ export const actions = {
 			email: String(form.get('email') ?? '').trim().toLowerCase(),
 			skill: String(form.get('skill') ?? ''),
 			characters: String(form.get('characters') ?? '').trim(),
-			controller: String(form.get('controller') ?? ''),
-			dates: form.get('dates') === 'on'
+			controller: String(form.get('controller') ?? '')
 		};
 
-		if (!values.name || !/^\S+@\S+\.\S+$/.test(values.email) || !SKILLS.includes(values.skill) || !values.controller || !values.dates)
+		if (!values.name || !/^\S+@\S+\.\S+$/.test(values.email) || !SKILLS.includes(values.skill) || !['own', 'need'].includes(values.controller))
 			return fail(400, { ...values, error: 'Fill in everything first.' });
 		if (!hasBlob()) return fail(503, { ...values, error: 'Signups are down right now. Tell an exec!' });
 

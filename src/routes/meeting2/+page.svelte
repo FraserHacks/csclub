@@ -19,13 +19,12 @@
 		const d = new FormData(e.currentTarget);
 		missing = ['name', 'email', 'skill', 'controller'].filter((k) => !String(d.get(k) ?? '').trim());
 		if (!missing.includes('email') && !/^\S+@\S+\.\S+$/.test(String(d.get('email')).trim())) missing.push('email');
-		if (d.get('dates') !== 'on') missing.push('dates');
 		if (missing.length) return e.preventDefault();
 		sending = true;
 	}
 
 	const clear = (k) => (missing = missing.filter((m) => m !== k));
-	const labels = { name: 'name', email: 'a valid email', skill: 'skill level', controller: 'controller', dates: 'both Thursdays' };
+	const labels = { name: 'name', email: 'a valid email', skill: 'skill level', controller: 'controller' };
 </script>
 
 <svelte:window onpageshow={() => (sending = false)} />
@@ -74,7 +73,6 @@
 	<section class="section halftone signup-section" id="signup">
 		<div class="wrap">
 			<h2 class="section-title"><span class="echo" data-echo="Sign up!">Sign up!</span></h2>
-			<p class="section-lede">Only sign up if you can make <b>both</b> Thursdays.</p>
 
 			{#if form?.success}
 				<p class="done">You're in! See you Thursday Oct 22.</p>
@@ -82,24 +80,15 @@
 				<form method="POST" novalidate onsubmit={submit}>
 					<label class:bad={missing.includes('name')}>Name<input name="name" autocomplete="name" value={form?.name ?? ''} oninput={() => clear('name')}></label>
 					<label class:bad={missing.includes('email')}>Email<input name="email" inputmode="email" autocomplete="email" placeholder="123456@pdsb.net" value={form?.email ?? ''} oninput={() => clear('email')}></label>
-					<label class:bad={missing.includes('skill')}>Skill level
-						<select name="skill" value={form?.skill ?? ''} onchange={() => clear('skill')}>
-							<option value="">pick one</option>
-							{#each SKILLS as s}<option value={s}>{s}</option>{/each}
-						</select>
-					</label>
+					<fieldset class:bad={missing.includes('skill')}>
+						<legend>Skill level</legend>
+						{#each SKILLS as s}<label class="opt"><input type="radio" name="skill" value={s} checked={form?.skill === s} onchange={() => clear('skill')}>{s}</label>{/each}
+					</fieldset>
 					<label>Preferred characters <small>optional</small><input name="characters" placeholder="Kirby, Steve..." value={form?.characters ?? ''}></label>
-					<label class:bad={missing.includes('controller')}>Controller
-						<select name="controller" value={form?.controller ?? ''} onchange={() => clear('controller')}>
-							<option value="">pick one</option>
-							<option value="own">Bringing my own</option>
-							<option value="need">Need to borrow one</option>
-						</select>
-					</label>
-					<label class="check" class:bad={missing.includes('dates')}>
-						<input type="checkbox" name="dates" checked={form?.dates ?? false} onchange={() => clear('dates')}>
-						I can make Thu Oct 22 and Thu Nov 5 at lunch
-					</label>
+					<fieldset class:bad={missing.includes('controller')}>
+						<legend>Controller</legend>
+						{#each [['own', 'Bringing my own'], ['need', 'Need to borrow one']] as [value, label]}<label class="opt"><input type="radio" name="controller" {value} checked={form?.controller === value} onchange={() => clear('controller')}>{label}</label>{/each}
+					</fieldset>
 					{#if missing.length}
 						<p class="err" role="alert">Not submitted! Missing {missing.map((k) => labels[k]).join(', ')}.</p>
 					{:else if form?.error}
@@ -149,14 +138,16 @@
 	form { display: grid; gap: 14px; margin-top: 28px; }
 	label { display: grid; gap: 6px; font-weight: 800; text-transform: uppercase; font-size: 15px; }
 	label small { font-family: var(--mono); font-weight: 400; text-transform: none; opacity: .8; }
-	input, select { font-family: var(--mono); font-size: 16px; padding: 12px 14px; border-radius: 5px; border: 2px solid rgba(255,255,255,.5); background: rgba(0,0,0,.12); color: var(--white); width: 100%; }
+	input { font-family: var(--mono); font-size: 16px; padding: 12px 14px; border-radius: 5px; border: 2px solid rgba(255,255,255,.5); background: rgba(0,0,0,.12); color: var(--white); width: 100%; }
 	input::placeholder { color: rgba(255,255,255,.5); }
-	input:focus, select:focus { outline: none; border-color: var(--white); }
-	.bad input, .bad select { border: 3px solid var(--ink); background: rgba(0,0,0,.3); }
-	option { color: var(--ink); }
-	.check { grid-template-columns: auto 1fr; align-items: center; gap: 12px; text-transform: none; font-size: 17px; padding: 10px 12px; border-radius: 5px; }
-	.check input { width: 22px; height: 22px; accent-color: var(--ink); }
-	.check.bad { outline: 3px solid var(--ink); background: rgba(0,0,0,.3); }
+	input:focus { outline: none; border-color: var(--white); }
+	.bad input { border: 3px solid var(--ink); background: rgba(0,0,0,.3); }
+	fieldset { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; border: none; border-radius: 5px; }
+	legend { width: 100%; padding: 0; margin-bottom: 6px; font-weight: 800; text-transform: uppercase; font-size: 15px; }
+	.opt { display: flex; align-items: center; gap: 8px; text-transform: none; font-size: 16px; padding: 10px 14px 8px; border-radius: 5px; border: 2px solid rgba(255,255,255,.5); background: rgba(0,0,0,.12); cursor: pointer; }
+	.opt:has(:checked) { background: var(--white); color: var(--red); border-color: var(--white); }
+	.opt input { width: 18px; height: 18px; margin: 0; padding: 0; border: none; accent-color: var(--red); }
+	fieldset.bad { outline: 3px solid var(--ink); outline-offset: 4px; }
 	.err { background: var(--ink); padding: 12px 16px; border-radius: 5px; font-family: var(--mono); font-size: 16px; font-weight: 700; border-left: 6px solid var(--white); }
 	.btn { margin-top: 6px; cursor: pointer; font-size: 20px; }
 	.btn:disabled { opacity: .7; cursor: wait; }
