@@ -3,6 +3,8 @@ export const CLASSROOM_CODE = 'huglqpjv';
 export const CLASSROOM_URL = 'https://classroom.google.com/c/ODA0NzMyMzIwMzI5?cjc=huglqpjv';
 export const INSTAGRAM = 'jfss_cs';
 
+export const SKILLS = ['Never played', 'Casual', 'Pretty good', 'Competitive'];
+
 export const TYPES = {
 	hw: { label: 'Hardware', tag: 'tag--hw' },
 	sw: { label: 'Software', tag: 'tag--sw' },
@@ -11,7 +13,7 @@ export const TYPES = {
 
 export const meetings = [
 	{ n: 1, title: 'LED heart breadboard', desc: 'Your first circuit, as a speed build. Fastest build wins a $10 Tims card!', href: '/meeting1' },
-	{ n: 2, title: 'Smash / Mario Kart tourney', desc: 'Easy entry, bracket style. Prize for the winner!!' },
+	{ n: 2, title: 'Smash Ultimate tourney', desc: 'Double elimination over two Thursdays. Prize for the winner!!', href: '/meeting2' },
 	{ n: 3, title: 'LED coin cell keychain', desc: 'Learn to solder and design your own case.' }
 ];
 

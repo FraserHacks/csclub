@@ -104,6 +104,7 @@
 		{:else}
 			<div class="tabs" role="group" aria-label="Admin sections">
 				{#each tabs as [value, label]}<button class="tab" aria-pressed={tab === value} onclick={() => (tab = value)}>{label}</button>{/each}
+				<a class="tab" href="/admin/bracket">Bracket</a>
 			</div>
 			{#if form?.deleted}<p class="done">Deleted {form.deleted}.</p>{/if}
 			{#if form?.credited}<p class="done">Updated credit for {form.credited}.</p>{/if}
@@ -208,7 +209,7 @@
 	.wrap { max-width: 560px; }
 	.wrap:has(.list), .wrap:has(.table-wrap) { max-width: 1100px; }
 	.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 24px; }
-	.tab { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 15px; padding: 10px 16px 7px; border-radius: 5px; border: 2px solid rgba(255,255,255,.5); background: transparent; color: var(--white); cursor: pointer; }
+	.tab { text-decoration: none; font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 15px; padding: 10px 16px 7px; border-radius: 5px; border: 2px solid rgba(255,255,255,.5); background: transparent; color: var(--white); cursor: pointer; }
 	.tab[aria-pressed="true"] { background: var(--white); color: var(--red); border-color: var(--white); }
 	.list { display: grid; gap: 10px; margin-top: 20px; }
 	.list form { display: block; margin: 0; }
