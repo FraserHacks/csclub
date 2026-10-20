@@ -98,7 +98,6 @@
 				<img class="f f--pikachu" src="{IMG}/pikachu.webp" alt="Pikachu" width="453" height="560">
 				<img class="f f--mario" src="{IMG}/mario.webp" alt="Mario" width="527" height="560" fetchpriority="high">
 				<img class="f f--kirby" src="{IMG}/kirby.webp" alt="Kirby" width="397" height="560">
-				<div class="sticker"><b>$15</b><span>to the winner</span></div>
 			</div>
 		</div>
 	</header>
@@ -205,11 +204,7 @@
 	.f--pikachu { left: 0; width: 38%; bottom: 4%; }
 	.f--mario { left: 24%; width: 52%; z-index: 1; }
 	.f--kirby { right: 0; width: 34%; bottom: 8%; }
-	.sticker { z-index: 2; }
 	.art .sparkles { position: absolute; left: -24px; top: -36px; width: clamp(56px, 7vw, 96px); }
-	.sticker { position: absolute; right: -6px; bottom: -28px; display: grid; place-items: center; width: clamp(110px, 13vw, 150px); aspect-ratio: 1; border-radius: 50%; background: var(--white); color: var(--red); transform: rotate(10deg); box-shadow: 5px 5px 0 var(--ink); text-align: center; }
-	.sticker b { font-size: clamp(38px, 4.5vw, 54px); line-height: .8; margin-top: 10px; }
-	.sticker span { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--ink); margin-top: -18px; }
 
 
 	.guide { background: var(--cream); color: var(--ink); padding: clamp(40px, 5vw, 64px) var(--gutter); }
@@ -220,7 +215,7 @@
 	.card p { font-size: 17px; line-height: 1.45; color: #4a3a3e; }
 	.card p + p { margin-top: 10px; }
 	.card b { color: var(--ink); }
-	.peek { position: absolute; right: -10px; bottom: -30px; width: clamp(110px, 12vw, 170px); pointer-events: none; }
+	.peek { position: absolute; right: -10px; bottom: -30px; width: clamp(110px, 12vw, 170px); height: auto; pointer-events: none; }
 	.card p, .card h2, .card .when { position: relative; z-index: 1; max-width: 78%; }
 	.sets { position: absolute; left: 22px; bottom: 20px; display: flex; gap: 6px; }
 	.sets i { width: 22px; height: 22px; border-radius: 50%; background: var(--red); }
