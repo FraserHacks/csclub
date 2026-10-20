@@ -4,7 +4,7 @@
 	import { stages } from '#lib/bracket.js';
 	import { SITE_URL, SKILLS } from '#lib/data.js';
 
-	const DESCRIPTION = 'Meeting 2: Smash Ultimate tourney. $20 to the winner. Double elimination pools on Thu Oct 22, top 16 on Thu Nov 5.';
+	const DESCRIPTION = 'Meeting 2: Smash Ultimate tourney. $15 / $10 / $5 for the top 3. Double elimination pools on Thu Oct 22, top 16 on Thu Nov 5.';
 
 	let { data, form } = $props();
 	let sending = $state(false);
@@ -87,7 +87,7 @@
 			<div>
 				<span class="label">Thu Oct 22 + Thu Nov 5 · Lunch · Rm 183</span>
 				<h1 class="section-title"><span class="echo" data-echo="Smash!!">Smash!!</span></h1>
-				<p class="section-lede">Super Smash Bros. Ultimate tourney over two Thursdays. Any skill level welcome. <b>$20 to the winner!</b></p>
+				<p class="section-lede">Super Smash Bros. Ultimate tourney over two Thursdays. Any skill level welcome. <b>$15, $10 and $5 for the top 3!</b></p>
 				<div class="ctas">
 					<a class="btn btn--solid" href="#signup">Sign up →</a>
 					{#if list.length}<a class="btn btn--ghost" href="#bracket">See bracket</a>{/if}
@@ -98,7 +98,7 @@
 				<img class="f f--pikachu" src="{IMG}/pikachu.webp" alt="Pikachu" width="453" height="560">
 				<img class="f f--mario" src="{IMG}/mario.webp" alt="Mario" width="527" height="560" fetchpriority="high">
 				<img class="f f--kirby" src="{IMG}/kirby.webp" alt="Kirby" width="397" height="560">
-				<div class="sticker"><b>$20</b><span>to the winner</span></div>
+				<div class="sticker"><b>$15</b><span>to the winner</span></div>
 			</div>
 		</div>
 	</header>
@@ -117,7 +117,7 @@
 				<span class="when">Week 2 · Thu Nov 5</span>
 				<h2>Top 16</h2>
 				<p>A fresh double elimination bracket. Every set is <b>best of 3</b>, grand finals are <b>best of 5</b>.</p>
-				<p>Winner takes home <b>$20</b>!</p>
+				<p><b>$15</b> for 1st, <b>$10</b> for 2nd, <b>$5</b> for 3rd!</p>
 				<div class="sets"><i></i><i></i><i class="x"></i></div>
 				<img class="peek" src="{IMG}/sonic.webp" alt="Sonic" width="457" height="560" loading="lazy">
 			</div>
@@ -129,6 +129,11 @@
 			<div class="intro">
 				<h2 class="section-title"><span class="echo" data-echo="Sign up!">Sign up!</span></h2>
 				{#if data.count}<p class="count"><b>{data.count}</b> signed up so far</p>{/if}
+				<div class="podium" aria-label="Prizes: $15 first, $10 second, $5 third">
+					{#each [['2nd', 10], ['1st', 15], ['3rd', 5]] as [place, amount]}
+						<div class="step step--{place}"><b>${amount}</b><span>{place}</span></div>
+					{/each}
+				</div>
 				{#if !form?.success}
 					<p class="roster-title">Pick your mains</p>
 					<div class="roster">
@@ -230,6 +235,14 @@
 	.signup-section { position: relative; overflow: hidden; background: linear-gradient(100deg, var(--red-hot) 0%, var(--red) 60%, var(--red-deep) 100%); padding: clamp(40px, 6vw, 80px) 0; }
 	.split { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: start; max-width: 1100px; }
 	.signup-section h2 { color: var(--white); font-size: clamp(48px, 8vw, 84px); margin: 0 0 18px; }
+	.podium { display: grid; grid-template-columns: repeat(3, 1fr); align-items: end; gap: 6px; margin-top: 24px; max-width: 420px; }
+	.step { display: grid; justify-items: center; align-content: start; gap: 4px; }
+	.step b { font-size: clamp(40px, 6vw, 64px); line-height: 1; text-shadow: 3px 3px 0 var(--ink); }
+	.step span { display: grid; place-items: center; width: 100%; background: var(--white); color: var(--red); font-weight: 800; font-size: 26px; text-transform: uppercase; border-radius: 6px 6px 0 0; box-shadow: 4px 0 0 var(--ink); }
+	.step--1st b { font-size: clamp(52px, 8vw, 84px); color: #ffd84a; }
+	.step--1st span { height: 120px; }
+	.step--2nd span { height: 84px; }
+	.step--3rd span { height: 56px; }
 	.roster-title { margin-top: 24px; font-weight: 800; text-transform: uppercase; font-size: 22px; }
 	.roster { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
 	.roster button { display: grid; gap: 2px; justify-items: center; padding: 6px 4px 4px; border-radius: 6px; border: 2px solid rgba(255,255,255,.35); background: rgba(0,0,0,.14); color: var(--white); cursor: pointer; font-family: var(--display); }

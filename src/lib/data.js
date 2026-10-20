@@ -13,7 +13,7 @@ export const TYPES = {
 
 export const meetings = [
 	{ n: 1, title: 'LED heart breadboard', desc: 'Your first circuit, as a speed build. Fastest build wins a $10 Tims card!', href: '/meeting1' },
-	{ n: 2, title: 'Smash Ultimate tourney', desc: 'Double elimination over two Thursdays. $20 to the winner!!', href: '/meeting2' },
+	{ n: 2, title: 'Smash Ultimate tourney', desc: 'Double elimination over two Thursdays. $15 / $10 / $5 for the top 3!!', href: '/meeting2' },
 	{ n: 3, title: 'LED coin cell keychain', desc: 'Learn to solder and design your own case.' }
 ];
 
