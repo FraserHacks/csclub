@@ -49,7 +49,19 @@
 
 	const clear = (k) => (missing = missing.filter((m) => m !== k));
 	const labels = { name: 'name', email: 'a valid email', skill: 'skill level', controller: 'controller' };
-	const fighter = (f) => `https://www.smashbros.com/assets_v2/img/fighter/${f}/main.png`;
+	const IMG = '/assets/meetings/2';
+	const roster = [
+		['mario', 'Mario'], ['kirby', 'Kirby'], ['pikachu', 'Pikachu'], ['link', 'Link'],
+		['steve', 'Steve'], ['sonic', 'Sonic'], ['fox', 'Fox'], ['donkey_kong', 'Donkey Kong'],
+		['samus', 'Samus'], ['joker', 'Joker'], ['inkling', 'Inkling'], ['cloud', 'Cloud'],
+		['captain_falcon', 'Captain Falcon'], ['jigglypuff', 'Jigglypuff'], ['sora', 'Sora'], ['pac_man', 'Pac-Man']
+	];
+	const mains = $derived(characters.split(',').map((c) => c.trim()).filter(Boolean));
+
+	function toggleMain(label) {
+		const has = mains.some((c) => c.toLowerCase() === label.toLowerCase());
+		characters = (has ? mains.filter((c) => c.toLowerCase() !== label.toLowerCase()) : [...mains, label]).join(', ');
+	}
 </script>
 
 <svelte:window onpageshow={() => (sending = false)} />
@@ -83,9 +95,9 @@
 			</div>
 			<div class="art">
 				<img class="sparkles" src="/assets/deco/sparkles.webp" alt="">
-				<img class="f f--pikachu" src={fighter('pikachu')} alt="Pikachu">
-				<img class="f f--mario" src={fighter('mario')} alt="Mario">
-				<img class="f f--kirby" src={fighter('kirby')} alt="Kirby">
+				<img class="f f--pikachu" src="{IMG}/pikachu.webp" alt="Pikachu" width="453" height="560">
+				<img class="f f--mario" src="{IMG}/mario.webp" alt="Mario" width="527" height="560" fetchpriority="high">
+				<img class="f f--kirby" src="{IMG}/kirby.webp" alt="Kirby" width="397" height="560">
 				<div class="sticker"><b>$20</b><span>to the winner</span></div>
 			</div>
 		</div>
@@ -99,7 +111,7 @@
 				<p>Everyone gets split into pools, sized by how many people sign up. Each pool is <b>double elimination, best of 1</b>.</p>
 				<p>Pools play down to the <b>top 16</b>.</p>
 				<div class="sets"><i></i><i class="x"></i></div>
-				<img class="peek" src={fighter('link')} alt="Link" loading="lazy">
+				<img class="peek" src="{IMG}/link.webp" alt="Link" width="503" height="560" loading="lazy">
 			</div>
 			<div class="card">
 				<span class="when">Week 2 · Thu Nov 5</span>
@@ -107,17 +119,28 @@
 				<p>A fresh double elimination bracket. Every set is <b>best of 3</b>, grand finals are <b>best of 5</b>.</p>
 				<p>Winner takes home <b>$20</b>!</p>
 				<div class="sets"><i></i><i></i><i class="x"></i></div>
-				<img class="peek" src={fighter('sonic')} alt="Sonic" loading="lazy">
+				<img class="peek" src="{IMG}/sonic.webp" alt="Sonic" width="457" height="560" loading="lazy">
 			</div>
 		</section>
 	</div>
 
 	<section class="section halftone signup-section" id="signup">
-		<img class="cat" src={fighter('steve')} alt="Steve" loading="lazy">
 		<div class="wrap split">
 			<div class="intro">
 				<h2 class="section-title"><span class="echo" data-echo="Sign up!">Sign up!</span></h2>
 				{#if data.count}<p class="count"><b>{data.count}</b> signed up so far</p>{/if}
+				{#if !form?.success}
+					<p class="roster-title">Pick your mains</p>
+					<div class="roster">
+						{#each roster as [slug, label]}
+							<button type="button" class:on={mains.some((c) => c.toLowerCase() === label.toLowerCase())} aria-pressed={mains.some((c) => c.toLowerCase() === label.toLowerCase())} onclick={() => toggleMain(label)}>
+								<img src="{IMG}/{slug}_thumb.webp" alt="" width="200" height="200" loading="lazy">
+								<span>{label}</span>
+							</button>
+						{/each}
+					</div>
+					<p class="roster-note">Not here? Type them in the form.</p>
+				{/if}
 			</div>
 
 			{#if form?.success}
@@ -205,9 +228,16 @@
 	.sets i.x::after { content: "×"; position: absolute; inset: 0; display: grid; place-items: center; font-style: normal; font-weight: 800; font-size: 18px; line-height: 1; }
 
 	.signup-section { position: relative; overflow: hidden; background: linear-gradient(100deg, var(--red-hot) 0%, var(--red) 60%, var(--red-deep) 100%); padding: clamp(40px, 6vw, 80px) 0; }
-	.cat { position: absolute; left: -20px; bottom: -30px; width: clamp(160px, 18vw, 260px); opacity: .9; pointer-events: none; z-index: -1; }
 	.split { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: start; max-width: 1100px; }
 	.signup-section h2 { color: var(--white); font-size: clamp(48px, 8vw, 84px); margin: 0 0 18px; }
+	.roster-title { margin-top: 24px; font-weight: 800; text-transform: uppercase; font-size: 22px; }
+	.roster { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+	.roster button { display: grid; gap: 2px; justify-items: center; padding: 6px 4px 4px; border-radius: 6px; border: 2px solid rgba(255,255,255,.35); background: rgba(0,0,0,.14); color: var(--white); cursor: pointer; font-family: var(--display); }
+	.roster button:hover { border-color: var(--white); }
+	.roster button.on { background: var(--white); color: var(--red); border-color: var(--white); box-shadow: 3px 3px 0 var(--ink); }
+	.roster img { width: 100%; aspect-ratio: 1; height: auto; object-fit: contain; }
+	.roster span { font-size: 12px; font-weight: 800; text-transform: uppercase; line-height: 1.1; text-align: center; }
+	.roster-note { margin-top: 10px; font-family: var(--mono); font-size: 13px; opacity: .85; }
 	.count { font-family: var(--mono); text-transform: uppercase; font-size: 15px !important; }
 	.count b { display: inline-block; font-family: var(--display); font-size: 40px; background: var(--white); color: var(--red); padding: 4px 12px 0; border-radius: 6px; margin-right: 8px; vertical-align: middle; }
 	form { display: grid; gap: 14px; background: rgba(0,0,0,.14); border: 2px solid rgba(255,255,255,.35); border-radius: var(--radius); padding: clamp(18px, 3vw, 28px); }
@@ -241,6 +271,5 @@
 		.row { grid-template-columns: 1fr; }
 		.hero, .split { grid-template-columns: 1fr; }
 		.art { max-width: 480px; width: 100%; margin: 12px auto 24px; }
-		.cat { display: none; }
 	}
 </style>
