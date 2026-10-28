@@ -111,7 +111,7 @@
 			{#if tab === 'projects' && form?.error}<p class="err" role="alert">{form.error}</p>{/if}
 
 			{#if tab === 'add'}
-			{#if !data.ready}<p class="err">Set BASEROW_PROJECTS_TABLE and BLOB_READ_WRITE_TOKEN to add projects.</p>{/if}
+			{#if !data.ready}<p class="err">Set SUPABASE_URL and SUPABASE_SECRET_KEY to add projects.</p>{/if}
 			{#if form?.success}
 				<p class="done">Added {form.success}!{#if form.meeting} <a href="/meeting{form.meeting}">See meeting {form.meeting} →</a>{/if}</p>
 			{/if}

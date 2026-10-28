@@ -226,8 +226,8 @@ p { margin: 0; }
 .proj-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 7px; flex: 1; }
 .proj-body h3 { font-size: 26px; }
 .proj-body p { font-size: 15px; color: rgba(255,255,255,.78); }
-.proj-meta { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 10px; font-family: var(--mono); font-size: 12px; color: rgba(255,255,255,.6); }
-.tag { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 4px 8px 3px; border-radius: 3px; }
+.proj-meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: auto; padding-top: 10px; font-family: var(--mono); font-size: 12px; color: rgba(255,255,255,.6); }
+.tag { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 4px 8px 3px; border-radius: 3px; flex-shrink: 0; white-space: nowrap; }
 .tag--hw { background: var(--red); color: var(--white); }
 .tag--sw { background: var(--cyan); color: var(--white); }
 .tag--both { background: var(--peri); color: var(--white); }

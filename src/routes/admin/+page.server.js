@@ -1,18 +1,16 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { del, put } from '@vercel/blob';
-import { BLOB_READ_WRITE_TOKEN } from '$app/env/private';
 import { meetings } from '#lib/data.js';
 import { checkPassword, hasAdmin, isAdmin, login, logout } from '#lib/server/admin.js';
-import { createProject, deleteProject, getProject, hasProjects, listAllMembers, listProjects, updateProject } from '#lib/server/baserow.js';
+import { createProject, deleteImage, deleteProject, getProject, hasDb, listAllMembers, listProjects, updateProject, uploadImage } from '#lib/server/db.js';
 
 const MAX_IMAGE = 4 * 1024 * 1024;
 
 export async function load({ cookies }) {
 	if (!isAdmin(cookies)) return { authed: false, enabled: hasAdmin() };
-	const [members, projects] = await Promise.all([listAllMembers(), hasProjects() ? listProjects({ hidden: true }) : []]);
+	const [members, projects] = await Promise.all([listAllMembers(), hasDb() ? listProjects({ hidden: true }) : []]);
 	return {
 		authed: true,
-		ready: hasProjects() && Boolean(BLOB_READ_WRITE_TOKEN),
+		ready: hasDb(),
 		members: members.sort((a, b) => a.name.localeCompare(b.name)),
 		projects,
 		meetings: meetings.map(({ n, title }) => ({ n, title }))
@@ -52,20 +50,15 @@ export const actions = {
 
 		try {
 			const slug = values.name.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '') || 'project';
-			const { url } = await put(`projects/${slug}.jpg`, image, {
-				access: 'public',
-				addRandomSuffix: true,
-				contentType: image.type || 'image/jpeg',
-				token: BLOB_READ_WRITE_TOKEN
-			});
+			const url = await uploadImage(`${slug}_${crypto.randomUUID().slice(0, 8)}.jpg`, image);
 			await createProject({
-				Name: values.name,
-				Description: values.desc,
-				Type: ['hw', 'sw', 'both'].includes(values.type) ? values.type : 'hw',
-				Member: values.members.join(','),
-				Image: url,
-				Link: values.link,
-				Meeting: values.meeting
+				name: values.name,
+				description: values.desc,
+				type: ['hw', 'sw', 'both'].includes(values.type) ? values.type : 'hw',
+				member_ids: values.members,
+				image: url,
+				link: values.link,
+				meeting: values.meeting
 			});
 		} catch (e) {
 			console.error(e);
@@ -84,12 +77,12 @@ export const actions = {
 		const project = id && (await getProject(id));
 		if (!project) return fail(404, { error: 'Project not found.' });
 		try {
-			await updateProject(id, { Member: members.join(',') });
+			await updateProject(id, { member_ids: members });
 		} catch (e) {
 			console.error(e);
 			return fail(502, { error: 'Save failed. Try again.' });
 		}
-		return { credited: project.Name };
+		return { credited: project.name };
 	},
 
 	delete: async ({ request, cookies }) => {
@@ -99,11 +92,11 @@ export const actions = {
 		if (!project) return fail(404, { error: 'Project not found.' });
 		try {
 			await deleteProject(id);
-			if (project.Image?.includes('.blob.vercel-storage.com/')) await del(project.Image, { token: BLOB_READ_WRITE_TOKEN });
+			await deleteImage(project.image);
 		} catch (e) {
 			console.error(e);
 			return fail(502, { error: 'Delete failed. Try again.' });
 		}
-		return { deleted: project.Name };
+		return { deleted: project.name };
 	}
 };

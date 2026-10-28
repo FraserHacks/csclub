@@ -1,5 +1,5 @@
 import { defaultMembers } from '#lib/data.js';
-import { hasProjects, hasToken, listMembers, listProjects } from '#lib/server/baserow.js';
+import { hasDb, listMembers, listProjects } from '#lib/server/db.js';
 
 async function safe(fn, fallback) {
 	try {
@@ -12,8 +12,8 @@ async function safe(fn, fallback) {
 
 export async function load() {
 	const [members, dbProjects] = await Promise.all([
-		hasToken() ? safe(listMembers, defaultMembers) : defaultMembers,
-		hasProjects() ? safe(listProjects, []) : []
+		hasDb() ? safe(listMembers, defaultMembers) : defaultMembers,
+		hasDb() ? safe(listProjects, []) : []
 	]);
 	for (const p of dbProjects) {
 		const url = p.href || `#p${p.id}`;

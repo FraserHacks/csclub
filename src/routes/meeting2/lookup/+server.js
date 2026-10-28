@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit';
-import { hasToken, memberName } from '#lib/server/baserow.js';
+import { hasDb, memberName } from '#lib/server/db.js';
 import { getEntrant } from '#lib/server/tournament.js';
 
 export async function GET({ url }) {
@@ -8,7 +8,7 @@ export async function GET({ url }) {
 	try {
 		const entrant = await getEntrant(email);
 		if (entrant) return json({ name: entrant.name, skill: entrant.skill, characters: entrant.characters, controller: entrant.controller ? 'need' : 'own', returning: true });
-		return json({ name: hasToken() ? await memberName(email) : '' });
+		return json({ name: hasDb() ? await memberName(email) : '' });
 	} catch (e) {
 		console.error(e);
 		return json({});

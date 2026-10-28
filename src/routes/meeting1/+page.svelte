@@ -181,7 +181,7 @@
 				<h2>Everyone's hearts!!</h2>
 				<div class="build-grid">
 					{#each data.builds as p (p.id)}
-						<figure><img src={p.src} alt={p.name} loading="lazy"><figcaption>{p.name}<small>by {p.by}</small></figcaption></figure>
+						<figure><img src={p.src} alt={p.name} loading="lazy"><figcaption>{p.name}{#if p.by}<small>by {p.by}</small>{/if}</figcaption></figure>
 					{/each}
 				</div>
 			</section>

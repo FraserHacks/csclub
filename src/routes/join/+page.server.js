@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { createMember, emailExists, hasToken } from '#lib/server/baserow.js';
+import { createMember, emailExists, hasDb } from '#lib/server/db.js';
 
 export const actions = {
 	default: async ({ request }) => {
@@ -13,15 +13,15 @@ export const actions = {
 			github: String(form.get('github') ?? '').trim().replace(/^@/, '').replace(/^https?:\/\/github\.com\//i, '').replace(/\/.*$/, '')
 		};
 
-		if (!hasToken()) return fail(503, { ...values, error: 'Signups are down right now. Use the classroom code below!' });
+		if (!hasDb()) return fail(503, { ...values, error: 'Signups are down right now. Use the classroom code below!' });
 
 		try {
 			if (!values.email || !(await emailExists(values.email))) {
 				await createMember({
-					Name: values.name,
-					Email: values.email,
-					Grade: Number(values.grade) || null,
-					GitHub: values.github
+					name: values.name,
+					email: values.email,
+					grade: Number(values.grade) || null,
+					github: values.github
 				});
 			}
 		} catch (e) {

@@ -14,7 +14,7 @@ export const TYPES = {
 export const meetings = [
 	{ n: 1, title: 'LED heart breadboard', desc: 'Your first circuit, as a speed build. Fastest build wins a $10 Tims card!', href: '/meeting1' },
 	{ n: 2, title: 'Smash Ultimate tourney', desc: 'Double elimination over two Thursdays. $15 to the winner!!', href: '/meeting2' },
-	{ n: 3, title: 'LED coin cell keychain', desc: 'Learn to solder and design your own case.' }
+	{ n: 3, title: 'Arduino intro', desc: 'Make LEDs, servos and fans do what you tell them. Never coded? Built robots? Both welcome!', href: '/meeting3' }
 ];
 
 export const carousel = [

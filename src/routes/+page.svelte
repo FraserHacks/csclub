@@ -191,7 +191,7 @@
 		<div class="proj-body">
 			<h3>{p.name}</h3>
 			{#if p.desc}<p>{p.desc}</p>{/if}
-			<div class="proj-meta"><span>by {p.by}</span><span class="tag {TYPES[p.type].tag}">{TYPES[p.type].label}</span></div>
+			<div class="proj-meta"><span>{p.by && `by ${p.by}`}</span><span class="tag {TYPES[p.type].tag}">{TYPES[p.type].label}</span></div>
 		</div>
 	</svelte:element>
 {/snippet}
@@ -201,31 +201,6 @@
 	<div class="wrap">
 		<h2 class="section-title"><span class="echo" data-echo="Project directory">Project directory</span></h2>
 		<p class="section-lede">Hardware and software built by JFSS students. Make something and it goes up here.</p>
-
-		<div class="proj-group">
-			<div class="proj-group-head">
-				<h3>Beginner projects</h3>
-				<p>Start here. We build these at meetings.</p>
-			</div>
-			<div class="proj-grid">
-				<a class="proj" href="/meeting1">
-					<div class="proj-img proj-img--shot"><img src="/assets/projects/led-heart.webp" alt="Red LEDs arranged in a heart on a board" loading="lazy"></div>
-					<div class="proj-body">
-						<h3>LED breadboard heart</h3>
-						<p>Wire up LEDs and resistors into a heart. Your first circuit.</p>
-						<div class="proj-meta"><span>meeting 1</span><span class="tag tag--hw">Hardware</span></div>
-					</div>
-				</a>
-				<article class="proj">
-					<div class="proj-img proj-img--cut bg-cyan"><img src="/assets/projects/personal-site.webp" alt="A website shown on a tablet, laptop and phone" loading="lazy"></div>
-					<div class="proj-body">
-						<h3>Personal site</h3>
-						<p>Build and publish your own website with HTML and CSS.</p>
-						<div class="proj-meta"><span>workshop</span><span class="tag tag--sw">Software</span></div>
-					</div>
-				</article>
-			</div>
-		</div>
 
 		{#each meetingBuilds as m}
 			<div class="proj-group">

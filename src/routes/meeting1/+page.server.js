@@ -1,7 +1,7 @@
-import { hasProjects, listProjects } from '#lib/server/baserow.js';
+import { hasDb, listProjects } from '#lib/server/db.js';
 
 export async function load() {
-	if (!hasProjects()) return { builds: [] };
+	if (!hasDb()) return { builds: [] };
 	try {
 		return { builds: (await listProjects()).filter((p) => p.meeting === 1) };
 	} catch (e) {
