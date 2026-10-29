@@ -68,21 +68,32 @@ export const actions = {
 		return { success: values.name, meeting: values.meeting };
 	},
 
-	credit: async ({ request, cookies }) => {
+	edit: async ({ request, cookies }) => {
 		if (!isAdmin(cookies)) return fail(401, { error: 'Log in again.' });
 		const form = await request.formData();
 		const id = Number(form.get('id'));
+		const name = String(form.get('name') ?? '').trim();
+		const type = String(form.get('type') ?? 'hw');
 		const members = [...new Set(form.getAll('member').map(Number).filter(Boolean))];
-		if (!members.length) return fail(400, { error: 'Needs a member.' });
+		const link = String(form.get('link') ?? '').trim();
+		if (!name || !members.length) return fail(400, { error: 'Needs a name and a member.' });
+		if (link && !/^https?:\/\//.test(link)) return fail(400, { error: 'Link has to start with https://' });
 		const project = id && (await getProject(id));
 		if (!project) return fail(404, { error: 'Project not found.' });
 		try {
-			await updateProject(id, { member_ids: members });
+			await updateProject(id, {
+				name,
+				description: String(form.get('desc') ?? '').trim(),
+				type: ['hw', 'sw', 'both'].includes(type) ? type : 'hw',
+				member_ids: members,
+				link,
+				meeting: Number(form.get('meeting')) || null
+			});
 		} catch (e) {
 			console.error(e);
 			return fail(502, { error: 'Save failed. Try again.' });
 		}
-		return { credited: project.name };
+		return { edited: name };
 	},
 
 	delete: async ({ request, cookies }) => {

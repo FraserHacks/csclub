@@ -10,7 +10,7 @@
 	let editing = $state(null);
 	let editChosen = $state([]);
 	$effect.pre(() => {
-		if (form?.deleted || form?.credited || (form?.error && !('name' in form))) tab = 'projects';
+		if (form?.deleted || form?.edited || (form?.error && !('name' in form))) tab = 'projects';
 		chosen = form?.success ? [] : (form?.members ?? []).map(String);
 		editing = null;
 	});
@@ -107,7 +107,7 @@
 				<a class="tab" href="/admin/bracket">Bracket</a>
 			</div>
 			{#if form?.deleted}<p class="done">Deleted {form.deleted}.</p>{/if}
-			{#if form?.credited}<p class="done">Updated credit for {form.credited}.</p>{/if}
+			{#if form?.edited}<p class="done">Saved {form.edited}.</p>{/if}
 			{#if tab === 'projects' && form?.error}<p class="err" role="alert">{form.error}</p>{/if}
 
 			{#if tab === 'add'}
@@ -159,17 +159,33 @@
 								{#if p.href}<a href={p.href} target="_blank" rel="noopener">{p.href}</a>{/if}
 							</div>
 							<div class="actions">
-								<button class="del" aria-expanded={editing === p.id} onclick={() => edit(p)}>Credit</button>
+								<button class="del" aria-expanded={editing === p.id} onclick={() => edit(p)}>Edit</button>
 								<form method="POST" action="?/delete" onsubmit={(e) => confirm(`Delete ${p.name}? This can't be undone.`) || e.preventDefault()}>
 									<input type="hidden" name="id" value={p.id}>
 									<button class="del">Delete</button>
 								</form>
 							</div>
 							{#if editing === p.id}
-								<form class="credit" method="POST" action="?/credit">
+								<form class="edit" method="POST" action="?/edit">
 									<input type="hidden" name="id" value={p.id}>
+									<label>Project name<input name="name" required value={p.name}></label>
 									{@render picker(editChosen)}
-									<button class="del" disabled={!editChosen.length}>Save credit</button>
+									<label>Meeting
+										<select name="meeting" value={String(p.meeting ?? '')}>
+											<option value="">not from a meeting</option>
+											{#each data.meetings as m}<option value={String(m.n)}>{String(m.n).padStart(2, '0')} · {m.title}</option>{/each}
+										</select>
+									</label>
+									<label>Type
+										<select name="type" value={p.type}>
+											<option value="hw">Hardware</option>
+											<option value="sw">Software</option>
+											<option value="both">HW + SW</option>
+										</select>
+									</label>
+									<label>Description <small>optional</small><input name="desc" value={p.desc}></label>
+									<label>Link <small>optional</small><input name="link" inputmode="url" placeholder="https://github.com/..." value={p.href}></label>
+									<button class="del" disabled={!editChosen.length}>Save</button>
 								</form>
 							{/if}
 						</div>
@@ -219,10 +235,12 @@
 	.item span, .item a { display: block; font-family: var(--mono); font-size: 13px; color: #5d4449; overflow-wrap: anywhere; }
 	.del { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 14px; padding: 8px 12px 5px; border-radius: 5px; border: 2px solid var(--red); background: var(--white); color: var(--red); cursor: pointer; }
 	.actions { display: flex; gap: 6px; }
-	.list .credit { grid-column: 1 / -1; display: grid; gap: 10px; justify-items: start; }
-	.credit label { width: 100%; }
-	.credit select { color: var(--ink); background: var(--white); border-color: #d7c3c7; }
-	.credit .chip { background: var(--ink); color: var(--white); margin-top: 6px; }
+	.list .edit { grid-column: 1 / -1; display: grid; gap: 10px; justify-items: start; }
+	.edit label { width: 100%; }
+	.edit input, .edit select { color: var(--ink); background: var(--white); border-color: #d7c3c7; }
+	.edit input::placeholder { color: #a08a8e; }
+	.edit input:focus, .edit select:focus { border-color: var(--ink); }
+	.edit .chip { background: var(--ink); color: var(--white); margin-top: 6px; }
 	.del:disabled { opacity: .5; cursor: default; }
 	.del:hover { background: var(--red); color: var(--white); }
 	.empty { margin-top: 10px; font-family: var(--mono); }
