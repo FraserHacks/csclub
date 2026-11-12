@@ -135,6 +135,14 @@ ${body}
 		['Boss', 'Terminal', 'Make your site look and work like a command line. Typing help lists your pages.']
 	];
 
+	const upload = [
+		['gh_new', 'Top right + → New repository. Name it yourusername.github.io, keep it Public, then Create repository.'],
+		['gh_editor', 'Click "creating a new file". Name it index.html, paste your code, then Commit changes...'],
+		['gh_commit', 'Hit Commit changes again to save it.'],
+		['gh_pages', 'Settings → Pages shows your link after a minute. Still a 404? Set Branch to main and Save.'],
+		['gh_blob', 'To update: open index.html, click the ✎ pencil, paste your new code and commit.']
+	];
+
 	let active = $state('setup');
 	let edits = $state({});
 	let copied = $state(false);
@@ -238,6 +246,16 @@ ${body}
 			</div>
 		</section>
 
+		<section class="upload" id="upload">
+			<h2>Put it online</h2>
+			<p class="lede">Code ready? Here's every click on GitHub.</p>
+			<ol class="shots">
+				{#each upload as [img, text], i}
+					<li><img src="/assets/meetings/4/{img}.webp" alt="GitHub step {i + 1}" loading="lazy"><p><b>{String(i + 1).padStart(2, '0')}</b>{text}</p></li>
+				{/each}
+			</ol>
+		</section>
+
 		<section class="challenges" id="challenges">
 			<h2>Challenges</h2>
 			<p class="lede">Site's up? Make it better. No code given. Show an exec when yours works!</p>
@@ -316,7 +334,13 @@ ${body}
 	.url { display: block; font-family: var(--mono); font-size: 13px; padding: 8px 14px; background: var(--sky-light); border-bottom: 3px solid var(--ink); }
 	.preview iframe { display: block; width: 100%; height: 420px; border: none; background: var(--white); }
 
-	.challenges, .builds { max-width: 1200px; margin: 0 auto; padding: clamp(32px, 4vw, 48px) 0 0; scroll-margin-top: 60px; }
+	.shots { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 16px; }
+	.shots li { display: grid; align-content: start; gap: 12px; background: var(--white); border: 3px solid var(--ink); border-radius: var(--radius); padding: 12px; }
+	.shots img { width: 100%; border-radius: 8px; }
+	.shots p { display: flex; gap: 10px; font-size: 17px; line-height: 1.4; color: #3e4650; }
+	.shots b { font-family: var(--mono); color: var(--cyan-deep); }
+
+	.upload, .challenges, .builds { max-width: 1200px; margin: 0 auto; padding: clamp(32px, 4vw, 48px) 0 0; scroll-margin-top: 60px; }
 	.lede { font-size: 18px; color: #3e4650; margin: -6px 0 20px; }
 	.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
 	.challenge { display: grid; align-content: start; gap: 6px; background: var(--white); border: 3px solid var(--ink); border-radius: var(--radius); padding: 16px 18px; }
@@ -335,7 +359,7 @@ ${body}
 	.back { display: flex; width: max-content; margin: 40px auto 0; border-color: var(--cyan-deep); background: var(--cyan-deep); color: var(--white); }
 
 	@media (max-width: 820px) {
-		.row, .project { grid-template-columns: minmax(0, 1fr); }
+		.row, .project, .shots { grid-template-columns: minmax(0, 1fr); }
 		.tabs { display: grid; grid-template-columns: repeat(2, 1fr); }
 		.tabs button { justify-content: center; font-size: 16px; padding: 9px 8px 6px; }
 		.code { font-size: 13px; padding: 16px; height: 320px; }
