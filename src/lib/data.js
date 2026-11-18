@@ -17,7 +17,7 @@ export const meetings = [
 	{ n: 3, date: '2026-10-29', title: 'Arduino intro', desc: 'Make LEDs, servos and fans do what you tell them. Never coded? Built robots? Both welcome!', href: '/meeting3' },
 	{ n: 4, date: '2026-11-05', title: 'Smash tourney p2', desc: 'Top 16 of the Smash Ultimate tourney. Who makes the finals?', href: '/meeting2' },
 	{ n: 5, date: '2026-11-12', title: 'Personal site', desc: 'Build your own website and put it online for free. Bring a laptop!', href: '/meeting4' },
-	{ n: 6, date: '2026-11-19', title: 'Smash tourney finals', desc: 'The Smash Ultimate finals. $15 to the winner!!', href: '/meeting2', upcoming: true }
+	{ n: 6, date: '2026-11-26', title: 'Smash tourney finals', desc: 'The Smash Ultimate finals. $15 to the winner!!', href: '/meeting2', upcoming: true }
 ];
 
 export const madeDate = (meeting, month) =>
