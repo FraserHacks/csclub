@@ -13,7 +13,7 @@
 	const shownIds = $derived(new Set(data.members.filter((m) => m.name.toLowerCase().includes(query.trim().toLowerCase())).map((m) => m.id)));
 	$effect.pre(() => {
 		if (form?.desc) desc = form.desc;
-		meeting = String(form?.success ? '' : (form?.meeting ?? ''));
+		meeting = String(form ? (form.success ? '' : (form.meeting ?? '')) : data.preset);
 		if (form?.success && preview) {
 			URL.revokeObjectURL(preview);
 			preview = '';

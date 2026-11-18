@@ -7,8 +7,6 @@
 		INSTAGRAM,
 		TYPES,
 		meetings,
-		carousel,
-		boothTrinkets,
 		prizes,
 		trinketGroups
 	} from '#lib/data.js';
@@ -28,9 +26,7 @@
 	];
 
 	const allProjects = $derived(data.dbProjects.filter((p) => !p.meeting));
-	const featured = $derived(
-		carousel.map((c) => ({ ...data.dbProjects.find((p) => p.href === c.href), ...c })).filter((p) => p.src)
-	);
+	const featured = $derived(data.featured);
 	const meetingBuilds = $derived(
 		[...meetings].reverse().map((m) => ({ ...m, builds: data.dbProjects.filter((p) => p.meeting === m.n) })).filter((m) => m.builds.length)
 	);
@@ -53,8 +49,8 @@
 			.toUpperCase();
 
 	const projectName = (url) => {
-		const p = [...featured, ...data.dbProjects].find((p) => (p.href || `#p${p.id}`).toLowerCase() === url.toLowerCase());
-		return p ? (p.short ?? p.name) : url.replace(/\/+$/, '').split('/').pop();
+		const p = data.dbProjects.find((p) => (p.href || `#p${p.id}`).toLowerCase() === url.toLowerCase());
+		return p ? p.name : url.replace(/\/+$/, '').split('/').pop();
 	};
 
 	const jsonLd = JSON.stringify({
@@ -69,6 +65,11 @@
 	});
 
 	const pastMeetings = meetings.filter((m) => !m.upcoming);
+	const stats = $derived([
+		[pastMeetings.length, 'meetings done'],
+		[data.members.length, 'members'],
+		[data.dbProjects.length, 'projects made']
+	]);
 	let slides;
 	const slide = (dir) => slides.scrollBy({ left: dir * slides.clientWidth * 0.8, behavior: 'smooth' });
 
@@ -144,10 +145,9 @@
 			</h1>
 		</div>
 
-		<div class="scroll-block">
-			<div class="marquee trinket-marquee" aria-label="Trinkets"><div class="track">{#each [0, 1] as copy}{#each boothTrinkets as [img, name]}<figure aria-hidden={copy ? 'true' : undefined}><img src="/assets/icons/{img}.webp" alt=""><figcaption>{name}</figcaption></figure>{/each}{/each}</div></div>
-			<h2>Free trinket <span>every meeting!!</span></h2>
-		</div>
+		<ul class="stats">
+			{#each stats as [num, label]}<li><b>{num}</b><span>{label}</span></li>{/each}
+		</ul>
 
 		<div class="join">
 			<a class="qr" href="/join" aria-label="Join the club">{@html qr}</a>
@@ -187,7 +187,7 @@
 		</div>
 
 		<div class="proj-carousel">
-			<div class="pc-viewport" bind:this={vp}><div class="pc-track" bind:this={track}>{#each [0, 1, 2] as copy}{#each featured as p}<a class="pc-item" href={p.href} target="_blank" rel="noopener" aria-hidden={copy !== 1 ? 'true' : undefined} tabindex={copy !== 1 ? -1 : undefined}><div class="frame"><img src={p.src} alt=""></div><span class="pc-name">{p.short ?? p.name}<small>by {p.by}</small></span></a>{/each}{/each}</div></div>
+			<div class="pc-viewport" bind:this={vp}><div class="pc-track" bind:this={track}>{#each [0, 1, 2] as copy}{#each featured as p}<a class="pc-item" href={p.href || `#p${p.id}`} target={p.href ? '_blank' : undefined} rel="noopener" aria-hidden={copy !== 1 ? 'true' : undefined} tabindex={copy !== 1 ? -1 : undefined}><div class="frame"><img src={p.src} alt=""></div><span class="pc-name">{p.name}<small>by {p.by}</small></span></a>{/each}{/each}</div></div>
 			<a class="built-by" href="#projects">Built by JFSS students!! ↓</a>
 		</div>
 	</div>
@@ -224,6 +224,11 @@
 				</div>
 				<div class="proj-grid">
 					{#each m.builds as p (p.id)}{@render card(p)}{/each}
+					<a class="proj proj--empty" href="/submit?meeting={m.n}">
+						<span class="plus">+</span>
+						<h3>Your project!!</h3>
+						<p>Built this at meeting {m.n}? Add it here.</p>
+					</a>
 				</div>
 			</div>
 		{/each}

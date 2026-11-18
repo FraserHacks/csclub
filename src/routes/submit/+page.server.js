@@ -6,14 +6,15 @@ const MAX_IMAGE = 4 * 1024 * 1024;
 const MAX_DESC = 280;
 const GITHUB = /^https:\/\/(www\.)?github\.com\/\S+$/i;
 
-export async function load() {
+export async function load({ url }) {
 	if (!hasDb()) return { ready: false };
 	const members = await listMembers();
 	return {
 		ready: true,
 		maxDesc: MAX_DESC,
 		members: members.map(({ id, name }) => ({ id, name })).sort((a, b) => a.name.localeCompare(b.name)),
-		meetings: meetings.map(({ n, title, href }) => ({ n, title, href })).reverse()
+		meetings: meetings.map(({ n, title, href }) => ({ n, title, href })).reverse(),
+		preset: url.searchParams.get('meeting') ?? ''
 	};
 }
 

@@ -23,25 +23,6 @@ export const meetings = [
 export const madeDate = (meeting, month) =>
 	meetings.find((m) => m.n === meeting)?.date ?? (/^\d{4}-(0[1-9]|1[0-2])$/.test(month) ? `${month}-01` : null);
 
-export const carousel = [
-	{ href: 'https://github.com/flyingf15h/bing-bang-dream-adventure', short: 'Bing Bang Dream' },
-	{ href: 'https://github.com/darshg321/Icey' },
-	{ href: 'https://github.com/aaaaamed/pnake' },
-	{ href: 'https://github.com/darshg321/arcadetris' },
-	{ href: 'https://github.com/FraserHacks/FH26', short: 'FraserHacks 26' },
-	{ href: 'https://github.com/darshg321/Spotiplay' },
-	{ href: 'https://github.com/darshg321/EasyRP2040' }
-];
-
-export const boothTrinkets = [
-	['miffy', 'Miffy'],
-	['cinnamoroll', 'Cinnamoroll'],
-	['smiski', 'Smiski'],
-	['toothless', 'Flexi dragon'],
-	['switch', 'Switch fidget'],
-	['comb', 'Butterfly comb']
-];
-
 export const prizes = [
 	['prize-tims', 'Tim Hortons gift card'],
 	['prize-claude', ''],

@@ -7,6 +7,9 @@ export const db = SUPABASE_URL && SUPABASE_SECRET_KEY ? createClient(SUPABASE_UR
 
 export const hasDb = () => Boolean(db);
 
+const STORAGE_PATH = `/storage/v1/object/public/${BUCKET}/`;
+const servedImage = (url) => (url.includes(STORAGE_PATH) ? `/img/${url.split(STORAGE_PATH)[1]}` : url);
+
 export function must({ data, count, error }) {
 	if (error) throw error;
 	return data ?? count;
@@ -57,7 +60,7 @@ export async function listProjects({ hidden = false } = {}) {
 		type: r.type,
 		memberIds: r.member_ids,
 		by: and.format(r.member_ids.map((id) => names.get(id)).filter(Boolean)),
-		src: r.image,
+		src: servedImage(r.image),
 		frame: r.frame.trim() || 'shot',
 		href: r.link.trim(),
 		hrefOther: (r.link_other ?? '').trim(),
@@ -81,6 +84,6 @@ export async function uploadImage(path, file) {
 }
 
 export async function deleteImage(url) {
-	const path = url.split(`/storage/v1/object/public/${BUCKET}/`)[1];
+	const path = url.split(STORAGE_PATH)[1];
 	if (path) await db.storage.from(BUCKET).remove([path]).then(must);
 }

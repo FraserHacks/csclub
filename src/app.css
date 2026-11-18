@@ -546,6 +546,9 @@ a.proj { text-decoration: none; color: inherit; }
 .built-by { display: block; text-align: center; text-decoration: none; font-size: clamp(18px, 1.5vw, 26px); font-weight: 800; text-transform: uppercase; color: var(--cyan); }
 .built-by:hover { text-decoration: underline; }
 @media (max-width: 820px) { .pc-item { width: 150px; } }
+.pc-item .frame { background: #1c1114; border: 3px solid var(--white); border-radius: 10px; overflow: hidden; box-shadow: 6px 6px 0 var(--ink); }
+.pc-item img { object-fit: cover; filter: none; }
+.pc-item:not(.active) img { filter: grayscale(.5) brightness(.85); }
 
 .club-info .tagline { font-size: clamp(26px, 2.5vw, 48px); }
 .prize-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 10px; }
@@ -561,6 +564,10 @@ a.proj { text-decoration: none; color: inherit; }
 .comp-three b { display: block; font-size: clamp(17px, 1.4vw, 26px); text-transform: uppercase; line-height: 1; }
 .comp-three span { font-family: var(--mono); font-size: clamp(11px, .85vw, 14px); opacity: .9; }
 @media (max-width: 520px) { .comp-three { grid-template-columns: 1fr; } }
+.stats { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(12px, 2vw, 32px); }
+.stats li { border-left: 3px solid var(--cyan); padding-left: 12px; }
+.stats b { display: block; font-size: clamp(48px, 5.5vw, 104px); line-height: .9; color: var(--cyan); }
+.stats span { font-size: clamp(15px, 1.3vw, 24px); font-weight: 800; text-transform: uppercase; }
 .m-slider { display: flex; align-items: center; gap: 10px; margin-top: clamp(12px, 2vh, 22px); }
 .m-slides { list-style: none; margin: 0; padding: 0; display: flex; gap: clamp(12px, 1.6vw, 28px); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; flex: 1; min-width: 0; }
 .m-slides::-webkit-scrollbar { display: none; }
