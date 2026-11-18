@@ -71,7 +71,7 @@
 		[data.dbProjects.length, 'projects made']
 	]);
 	let slides;
-	const slide = (dir) => slides.scrollBy({ left: dir * slides.clientWidth * 0.8, behavior: 'smooth' });
+	const slide = (dir) => slides.scrollBy({ left: dir * slides.clientWidth, behavior: 'smooth' });
 
 	let counts = $state(null);
 	onMount(() => {
@@ -189,20 +189,22 @@
 		</div>
 
 		<div class="reason">
-			<h2>Meetings <span>so far!</span></h2>
-			<div class="m-slider">
-				<button class="m-arrow" aria-label="Previous meetings" onclick={() => slide(-1)}>←</button>
-				<ul class="m-slides" bind:this={slides}>
-					{#each pastMeetings as m}
-						<li><a href={m.href}><b class="echo" data-echo={String(m.n).padStart(2, '0')}>{String(m.n).padStart(2, '0')}</b><span>{m.title}</span></a></li>
-					{/each}
-				</ul>
-				<button class="m-arrow" aria-label="Next meetings" onclick={() => slide(1)}>→</button>
+			<div class="ms-head">
+				<h2>Meetings <span>so far!</span></h2>
+				<div class="m-arrows">
+					<button class="m-arrow" aria-label="Previous meetings" onclick={() => slide(-1)}>←</button>
+					<button class="m-arrow" aria-label="Next meetings" onclick={() => slide(1)}>→</button>
+				</div>
 			</div>
+			<ul class="m-slides" bind:this={slides}>
+				{#each pastMeetings as m}
+					<li><a href={m.href}><b class="echo" data-echo={String(m.n).padStart(2, '0')}>{String(m.n).padStart(2, '0')}</b><span>{m.title}</span></a></li>
+				{/each}
+			</ul>
 		</div>
 
 		<div class="proj-carousel">
-			<div class="pc-viewport" bind:this={vp}><div class="pc-track" bind:this={track}>{#each [0, 1, 2] as copy}{#each featured as p}<a class="pc-item" href={p.href || `#p${p.id}`} target={p.href ? '_blank' : undefined} rel="noopener" aria-hidden={copy !== 1 ? 'true' : undefined} tabindex={copy !== 1 ? -1 : undefined}><div class="frame"><img src={p.src} alt=""></div><span class="pc-name">{p.name}<small>by {p.by}</small></span></a>{/each}{/each}</div></div>
+			<div class="pc-viewport" bind:this={vp}><div class="pc-track" bind:this={track}>{#each [0, 1, 2] as copy}{#each featured as p}<a class="pc-item" href={p.href || `#p${p.id}`} target={p.href ? '_blank' : undefined} rel="noopener" aria-hidden={copy !== 1 ? 'true' : undefined} tabindex={copy !== 1 ? -1 : undefined}><div class="frame"><img src={p.src} alt=""></div><span class="pc-name">{p.name}{#if p.by}<small>by {p.by}</small>{/if}</span></a>{/each}{/each}</div></div>
 			<a class="built-by" href="#projects">Built by JFSS students!! ↓</a>
 		</div>
 	</div>
