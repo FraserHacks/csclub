@@ -73,6 +73,6 @@ export const trinketGroups = [
 export const defaultMembers = [
 	{ name: 'Darsh Gupta', role: 'President', exec: true, github: 'darshg321', projects: ['https://github.com/flyingf15h/bing-bang-dream-adventure', 'https://github.com/darshg321/Icey', 'https://github.com/darshg321/arcadetris', 'https://github.com/darshg321/Ultisense'] },
 	{ name: 'Yichen Li', role: 'Vice President', exec: true, github: '', projects: [] },
-	{ name: 'Jason Chou', role: 'Vice President', exec: true, github: 'JasonChou0105', projects: ['https://github.com/JasonChou0105/3d_hand_playground'] },
-	{ name: 'Aaamed', role: 'Builder', exec: false, github: 'aaaaamed', projects: ['https://github.com/aaaaamed/pnake'] }
+	{ name: 'Ahmed', role: 'Vice President', exec: true, github: 'aaaaamed', projects: ['https://github.com/aaaaamed/pnake'] },
+	{ name: 'Jason Chou', role: 'Vice President', exec: true, github: 'JasonChou0105', projects: ['https://github.com/JasonChou0105/3d_hand_playground'] }
 ];
