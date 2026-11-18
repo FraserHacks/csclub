@@ -29,6 +29,7 @@ export async function load() {
 		const url = p.href || `#p${p.id}`;
 		for (const m of members.filter((m) => p.memberIds.includes(m.id))) if (!m.projects.includes(url)) m.projects.push(url);
 	}
+	members.sort((a, b) => b.exec - a.exec || (!a.exec && b.projects.length - a.projects.length));
 	const featured = shuffle([
 		...meetings.flatMap((m) => pick2(dbProjects.filter((p) => p.meeting === m.n))),
 		...pick2(dbProjects.filter((p) => !p.meeting))
