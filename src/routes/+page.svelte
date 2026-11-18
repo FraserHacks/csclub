@@ -70,8 +70,20 @@
 		[data.members.length, 'members'],
 		[data.dbProjects.length, 'projects made']
 	]);
+	const bgRows = ['Build ✦ Code ✦ Solder ✦ Print ✦ Hack ✦ ', 'Win prizes ✦ Get ECs ✦ Free trinkets ✦ '];
 	let slides;
-	const slide = (dir) => slides.scrollBy({ left: dir * slides.clientWidth, behavior: 'smooth' });
+	let paused = false;
+	function slide(dir) {
+		const step = slides.firstElementChild.offsetWidth + parseFloat(getComputedStyle(slides).columnGap);
+		const atEnd = slides.scrollLeft + slides.clientWidth >= slides.scrollWidth - 4;
+		if (dir > 0 && atEnd) slides.scrollTo({ left: 0, behavior: 'smooth' });
+		else slides.scrollBy({ left: dir * step, behavior: 'smooth' });
+	}
+	onMount(() => {
+		if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+		const timer = setInterval(() => paused || slide(1), 3200);
+		return () => clearInterval(timer);
+	});
 
 	let counts = $state(null);
 	onMount(() => {
@@ -150,6 +162,11 @@
 <section class="booth halftone">
 	<div class="booth-side-word outline-word" aria-hidden="true">FCSFCSFCSFCS</div>
 	<img class="sparkles" src="/assets/deco/sparkles.webp" alt="" aria-hidden="true">
+	<img class="sparkles sparkles--b" src="/assets/deco/sparkles.webp" alt="" aria-hidden="true">
+	<img class="sparkles sparkles--c" src="/assets/deco/sparkles.webp" alt="" aria-hidden="true">
+	<div class="booth-bg outline-word" aria-hidden="true">
+		{#each bgRows as row, r}<div class="bg-row" class:bg-row--rev={r % 2}><span>{row}</span><span>{row}</span></div>{/each}
+	</div>
 
 	<div class="hook">
 		<div class="brand-row">
@@ -196,7 +213,7 @@
 					<button class="m-arrow" aria-label="Next meetings" onclick={() => slide(1)}>→</button>
 				</div>
 			</div>
-			<ul class="m-slides" bind:this={slides}>
+			<ul class="m-slides" bind:this={slides} onmouseenter={() => (paused = true)} onmouseleave={() => (paused = false)} onfocusin={() => (paused = true)} onfocusout={() => (paused = false)}>
 				{#each pastMeetings as m}
 					<li><a href={m.href}><b class="echo" data-echo={String(m.n).padStart(2, '0')}>{String(m.n).padStart(2, '0')}</b><span>{m.title}</span></a></li>
 				{/each}
