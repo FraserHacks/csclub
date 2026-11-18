@@ -73,6 +73,21 @@
 	let slides;
 	const slide = (dir) => slides.scrollBy({ left: dir * slides.clientWidth * 0.8, behavior: 'smooth' });
 
+	let counts = $state(null);
+	onMount(() => {
+		if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+		const targets = stats.map(([n]) => n);
+		const start = performance.now();
+		let frame;
+		const tick = (now) => {
+			const k = Math.min(1, (now - start) / 1400);
+			counts = targets.map((n) => Math.round(n * (1 - (1 - k) ** 3)));
+			if (k < 1) frame = requestAnimationFrame(tick);
+		};
+		frame = requestAnimationFrame(tick);
+		return () => cancelAnimationFrame(frame);
+	});
+
 	let vp, track;
 
 	onMount(() => {
@@ -146,7 +161,7 @@
 		</div>
 
 		<ul class="stats">
-			{#each stats as [num, label]}<li><b>{num}</b><span>{label}</span></li>{/each}
+			{#each stats as [num, label], i}<li><b>{counts?.[i] ?? num}</b><span>{label}</span></li>{/each}
 		</ul>
 
 		<div class="join">
