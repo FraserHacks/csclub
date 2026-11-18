@@ -9,7 +9,11 @@
 	let chosen = $state([]);
 	let editing = $state(null);
 	let editChosen = $state([]);
+	let addMeeting = $state('');
+	let editMeeting = $state('');
+	const thisMonth = new Date().toISOString().slice(0, 7);
 	$effect.pre(() => {
+		addMeeting = String(form?.success ? '' : (form?.meeting ?? ''));
 		if (form?.deleted || form?.edited || (form?.error && !('name' in form))) tab = 'projects';
 		chosen = form?.success ? [] : (form?.members ?? []).map(String);
 		editing = null;
@@ -32,6 +36,7 @@
 	}
 	function edit(p) {
 		editChosen = p.memberIds.map(String);
+		editMeeting = String(p.meeting ?? '');
 		editing = editing === p.id ? null : p.id;
 	}
 	const meetingName = (n) => data.meetings.find((m) => m.n === n)?.title;
@@ -113,7 +118,7 @@
 			{#if tab === 'add'}
 			{#if !data.ready}<p class="err">Set SUPABASE_URL and SUPABASE_SECRET_KEY to add projects.</p>{/if}
 			{#if form?.success}
-				<p class="done">Added {form.success}!{#if form.meeting} <a href="/meeting{form.meeting}">See meeting {form.meeting} →</a>{/if}</p>
+				<p class="done">Added {form.success}!{#if form.meeting} <a href={data.meetings.find((m) => m.n === form.meeting)?.href}>See meeting {form.meeting} →</a>{/if}</p>
 			{/if}
 
 			<form method="POST" action="?/add" enctype="multipart/form-data" onsubmit={() => (sending = true)}>
@@ -129,11 +134,12 @@
 				<label>Project name<input name="name" required value={form?.success ? '' : (form?.name ?? '')}></label>
 				{@render picker(chosen)}
 				<label>Meeting
-					<select name="meeting" value={String(form?.meeting ?? '')}>
+					<select name="meeting" bind:value={addMeeting}>
 						<option value="">not from a meeting</option>
 						{#each data.meetings as m}<option value={String(m.n)}>{String(m.n).padStart(2, '0')} · {m.title}</option>{/each}
 					</select>
 				</label>
+				{#if !addMeeting}<label>Month made <small>optional</small><input type="month" name="month" max={thisMonth} value={form?.success ? '' : (form?.month ?? '')}></label>{/if}
 				<label>Type
 					<select name="type" value={form?.success ? 'hw' : (form?.type ?? 'hw')}>
 						<option value="hw">Hardware</option>
@@ -171,11 +177,12 @@
 									<label>Project name<input name="name" required value={p.name}></label>
 									{@render picker(editChosen)}
 									<label>Meeting
-										<select name="meeting" value={String(p.meeting ?? '')}>
+										<select name="meeting" bind:value={editMeeting}>
 											<option value="">not from a meeting</option>
 											{#each data.meetings as m}<option value={String(m.n)}>{String(m.n).padStart(2, '0')} · {m.title}</option>{/each}
 										</select>
 									</label>
+									{#if !editMeeting}<label>Month made <small>optional</small><input type="month" name="month" max={thisMonth} value={p.made?.slice(0, 7) ?? ''}></label>{/if}
 									<label>Type
 										<select name="type" value={p.type}>
 											<option value="hw">Hardware</option>

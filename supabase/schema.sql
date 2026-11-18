@@ -21,6 +21,7 @@ create table projects (
 	link text not null default '',
 	link_other text not null default '',
 	meeting int,
+	made date,
 	hidden boolean not null default false,
 	member_ids bigint[] not null default '{}',
 	frame text not null default '',

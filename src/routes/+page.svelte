@@ -68,6 +68,10 @@
 		parentOrganization: { '@type': 'HighSchool', name: 'John Fraser Secondary School' }
 	});
 
+	const pastMeetings = meetings.filter((m) => !m.upcoming);
+	let slides;
+	const slide = (dir) => slides.scrollBy({ left: dir * slides.clientWidth * 0.8, behavior: 'smooth' });
+
 	let vp, track;
 
 	onMount(() => {
@@ -170,12 +174,16 @@
 		</div>
 
 		<div class="reason">
-			<h2>Compete for <span>medals + scholarships!</span></h2>
-			<ul class="comp-three">
-				<li><a class="ext" href="https://cemc.uwaterloo.ca/contests/ccc" target="_blank" rel="noopener"><b>CCC</b><span>hosted by Waterloo</span></a></li>
-				<li><a class="ext" href="https://www.peelsciencefair.ca/" target="_blank" rel="noopener"><b>Peel Science Fair</b><span>→ CWSF → ISEF</span></a></li>
-				<li><a class="ext" href="https://www.peelschools.org/peel-skills-challenge" target="_blank" rel="noopener"><b>Peel Skills</b><span>→ Ontario → Canada</span></a></li>
-			</ul>
+			<h2>Meetings <span>so far!</span></h2>
+			<div class="m-slider">
+				<button class="m-arrow" aria-label="Previous meetings" onclick={() => slide(-1)}>←</button>
+				<ul class="m-slides" bind:this={slides}>
+					{#each pastMeetings as m}
+						<li><a href={m.href}><b>{String(m.n).padStart(2, '0')}</b><span>{m.title}</span></a></li>
+					{/each}
+				</ul>
+				<button class="m-arrow" aria-label="Next meetings" onclick={() => slide(1)}>→</button>
+			</div>
 		</div>
 
 		<div class="proj-carousel">
@@ -231,11 +239,11 @@
 
 		<div class="proj-grid">
 			{#each shown as p (p.id)}{@render card(p)}{/each}
-			<article class="proj proj--empty">
+			<a class="proj proj--empty" href="/submit">
 				<span class="plus">+</span>
 				<h3>Your project!!</h3>
 				<p>Build something and it goes here.</p>
-			</article>
+			</a>
 		</div>
 	</div>
 </section>

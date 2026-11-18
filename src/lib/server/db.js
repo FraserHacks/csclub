@@ -62,6 +62,7 @@ export async function listProjects({ hidden = false } = {}) {
 		href: r.link.trim(),
 		hrefOther: (r.link_other ?? '').trim(),
 		meeting: r.meeting,
+		made: r.made,
 		hidden: r.hidden
 	})).filter((p) => p.name && p.src);
 }

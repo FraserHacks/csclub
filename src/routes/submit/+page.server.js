@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { meetings } from '#lib/data.js';
+import { madeDate, meetings } from '#lib/data.js';
 import { createProject, hasDb, listMembers, uploadImage } from '#lib/server/db.js';
 
 const MAX_IMAGE = 4 * 1024 * 1024;
@@ -13,7 +13,7 @@ export async function load() {
 		ready: true,
 		maxDesc: MAX_DESC,
 		members: members.map(({ id, name }) => ({ id, name })).sort((a, b) => a.name.localeCompare(b.name)),
-		meetings: meetings.map(({ n, title }) => ({ n, title })).reverse()
+		meetings: meetings.map(({ n, title, href }) => ({ n, title, href })).reverse()
 	};
 }
 
@@ -27,7 +27,8 @@ export const actions = {
 			members: [...new Set(form.getAll('member').map(Number).filter(Boolean))],
 			meeting: Number(form.get('meeting')) || null,
 			github: String(form.get('github') ?? '').trim(),
-			other: String(form.get('other') ?? '').trim()
+			other: String(form.get('other') ?? '').trim(),
+			month: String(form.get('month') ?? '')
 		};
 		const image = form.get('image');
 
@@ -53,7 +54,8 @@ export const actions = {
 				image: url,
 				link: values.github,
 				link_other: values.other,
-				meeting: meetings.some((m) => m.n === values.meeting) ? values.meeting : null
+				meeting: meetings.some((m) => m.n === values.meeting) ? values.meeting : null,
+				made: madeDate(values.meeting, values.month)
 			});
 		} catch (e) {
 			console.error(e);

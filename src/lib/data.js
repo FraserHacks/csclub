@@ -12,11 +12,16 @@ export const TYPES = {
 };
 
 export const meetings = [
-	{ n: 1, title: 'LED heart breadboard', desc: 'Your first circuit, as a speed build. Fastest build wins a $10 Tims card!', href: '/meeting1' },
-	{ n: 2, title: 'Smash Ultimate tourney', desc: 'Double elimination over two Thursdays. $15 to the winner!!', href: '/meeting2' },
-	{ n: 3, title: 'Arduino intro', desc: 'Make LEDs, servos and fans do what you tell them. Never coded? Built robots? Both welcome!', href: '/meeting3' },
-	{ n: 4, title: 'Personal site', desc: 'Build your own website and put it online for free. Bring a laptop!', href: '/meeting4' }
+	{ n: 1, date: '2026-10-15', title: 'LED heart breadboard', desc: 'Your first circuit, as a speed build. Fastest build wins a $10 Tims card!', href: '/meeting1' },
+	{ n: 2, date: '2026-10-22', title: 'Smash Ultimate tourney', desc: 'Double elimination over two Thursdays. $15 to the winner!!', href: '/meeting2' },
+	{ n: 3, date: '2026-10-29', title: 'Arduino intro', desc: 'Make LEDs, servos and fans do what you tell them. Never coded? Built robots? Both welcome!', href: '/meeting3' },
+	{ n: 4, date: '2026-11-05', title: 'Smash tourney p2', desc: 'Top 16 of the Smash Ultimate tourney. Who makes the finals?', href: '/meeting2' },
+	{ n: 5, date: '2026-11-12', title: 'Personal site', desc: 'Build your own website and put it online for free. Bring a laptop!', href: '/meeting4' },
+	{ n: 6, date: '2026-11-19', title: 'Smash tourney finals', desc: 'The Smash Ultimate finals. $15 to the winner!!', href: '/meeting2', upcoming: true }
 ];
+
+export const madeDate = (meeting, month) =>
+	meetings.find((m) => m.n === meeting)?.date ?? (/^\d{4}-(0[1-9]|1[0-2])$/.test(month) ? `${month}-01` : null);
 
 export const carousel = [
 	{ href: 'https://github.com/flyingf15h/bing-bang-dream-adventure', short: 'Bing Bang Dream' },

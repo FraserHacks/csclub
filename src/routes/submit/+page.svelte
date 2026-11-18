@@ -8,9 +8,12 @@
 	let image = $state();
 	let query = $state('');
 	let desc = $state('');
+	let meeting = $state('');
+	const thisMonth = new Date().toISOString().slice(0, 7);
 	const shownIds = $derived(new Set(data.members.filter((m) => m.name.toLowerCase().includes(query.trim().toLowerCase())).map((m) => m.id)));
 	$effect.pre(() => {
 		if (form?.desc) desc = form.desc;
+		meeting = String(form?.success ? '' : (form?.meeting ?? ''));
 		if (form?.success && preview) {
 			URL.revokeObjectURL(preview);
 			preview = '';
@@ -61,7 +64,7 @@
 			<p class="err">Submissions are down right now.</p>
 		{:else}
 			{#if form?.success}
-				<p class="done">Added {form.success}!{#if form.meeting} <a href="/meeting{form.meeting}">See meeting {form.meeting} →</a>{/if}</p>
+				<p class="done">Added {form.success}!{#if form.meeting} <a href={data.meetings.find((m) => m.n === form.meeting)?.href}>See meeting {form.meeting} →</a>{/if}</p>
 			{/if}
 
 			<form method="POST" enctype="multipart/form-data" onsubmit={() => (sending = true)}>
@@ -85,11 +88,12 @@
 					</div>
 				</fieldset>
 				<label>Meeting
-					<select name="meeting" value={String(form?.success ? '' : (form?.meeting ?? ''))}>
+					<select name="meeting" bind:value={meeting}>
 						<option value="">not from a meeting</option>
 						{#each data.meetings as m}<option value={String(m.n)}>{String(m.n).padStart(2, '0')} · {m.title}</option>{/each}
 					</select>
 				</label>
+				{#if !meeting}<label>Month made <small>optional</small><input type="month" name="month" max={thisMonth} value={form?.success ? '' : (form?.month ?? '')}></label>{/if}
 				<label>Type
 					<select name="type" value={form?.success ? 'hw' : (form?.type ?? 'hw')}>
 						<option value="hw">Hardware</option>

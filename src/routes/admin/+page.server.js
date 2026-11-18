@@ -1,5 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { meetings } from '#lib/data.js';
+import { madeDate, meetings } from '#lib/data.js';
 import { checkPassword, hasAdmin, isAdmin, login, logout } from '#lib/server/admin.js';
 import { createProject, deleteImage, deleteProject, getProject, hasDb, listAllMembers, listProjects, updateProject, uploadImage } from '#lib/server/db.js';
 
@@ -13,7 +13,7 @@ export async function load({ cookies }) {
 		ready: hasDb(),
 		members: members.sort((a, b) => a.name.localeCompare(b.name)),
 		projects,
-		meetings: meetings.map(({ n, title }) => ({ n, title }))
+		meetings: meetings.map(({ n, title, href }) => ({ n, title, href }))
 	};
 }
 
@@ -39,7 +39,8 @@ export const actions = {
 			type: String(form.get('type') ?? 'hw'),
 			members: [...new Set(form.getAll('member').map(Number).filter(Boolean))],
 			meeting: Number(form.get('meeting')) || null,
-			link: String(form.get('link') ?? '').trim()
+			link: String(form.get('link') ?? '').trim(),
+			month: String(form.get('month') ?? '')
 		};
 		const image = form.get('image');
 
@@ -58,7 +59,8 @@ export const actions = {
 				member_ids: values.members,
 				image: url,
 				link: values.link,
-				meeting: values.meeting
+				meeting: values.meeting,
+				made: madeDate(values.meeting, values.month)
 			});
 		} catch (e) {
 			console.error(e);
@@ -87,7 +89,8 @@ export const actions = {
 				type: ['hw', 'sw', 'both'].includes(type) ? type : 'hw',
 				member_ids: members,
 				link,
-				meeting: Number(form.get('meeting')) || null
+				meeting: Number(form.get('meeting')) || null,
+				made: madeDate(Number(form.get('meeting')) || null, String(form.get('month') ?? ''))
 			});
 		} catch (e) {
 			console.error(e);

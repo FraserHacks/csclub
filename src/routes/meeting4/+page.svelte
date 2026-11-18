@@ -1,7 +1,7 @@
 <script>
 	import { SITE_URL } from '#lib/data.js';
 
-	const DESCRIPTION = 'Meeting 4: personal site workshop. Write your own website in HTML and CSS and put it online for free with GitHub Pages.';
+	const DESCRIPTION = 'Meeting 5: personal site workshop. Write your own website in HTML and CSS and put it online for free with GitHub Pages.';
 
 	let { data } = $props();
 
@@ -157,17 +157,17 @@ ${body}
 </script>
 
 <svelte:head>
-	<title>Meeting 4: Personal site | Fraser Comp Sci Club</title>
+	<title>Meeting 5: Personal site | Fraser Comp Sci Club</title>
 	<meta name="description" content={DESCRIPTION}>
 	<link rel="canonical" href="{SITE_URL}/meeting4">
-	<meta property="og:title" content="Meeting 4: Personal site | Fraser Comp Sci Club">
+	<meta property="og:title" content="Meeting 5: Personal site | Fraser Comp Sci Club">
 	<meta property="og:description" content={DESCRIPTION}>
 	<meta property="og:url" content="{SITE_URL}/meeting4">
 	<meta property="og:image" content="{SITE_URL}/assets/og.png">
 </svelte:head>
 
 <div class="bar">
-	<a class="brand" href="/#meetings"><img src="/assets/logo_small.webp" alt="Fraser Comp Sci Club" width="36" height="36"><span>Meeting 04</span></a>
+	<a class="brand" href="/#meetings"><img src="/assets/logo_small.webp" alt="Fraser Comp Sci Club" width="36" height="36"><span>Meeting 05</span></a>
 	<a class="jump" href="#challenges">Challenges</a>
 </div>
 
