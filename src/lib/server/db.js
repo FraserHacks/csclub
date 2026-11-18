@@ -60,6 +60,7 @@ export async function listProjects({ hidden = false } = {}) {
 		src: r.image,
 		frame: r.frame.trim() || 'shot',
 		href: r.link.trim(),
+		hrefOther: (r.link_other ?? '').trim(),
 		meeting: r.meeting,
 		hidden: r.hidden
 	})).filter((p) => p.name && p.src);

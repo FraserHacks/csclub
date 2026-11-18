@@ -32,7 +32,7 @@
 		carousel.map((c) => ({ ...data.dbProjects.find((p) => p.href === c.href), ...c })).filter((p) => p.src)
 	);
 	const meetingBuilds = $derived(
-		meetings.map((m) => ({ ...m, builds: data.dbProjects.filter((p) => p.meeting === m.n) })).filter((m) => m.builds.length)
+		[...meetings].reverse().map((m) => ({ ...m, builds: data.dbProjects.filter((p) => p.meeting === m.n) })).filter((m) => m.builds.length)
 	);
 
 	const shown = $derived.by(() => {
@@ -186,14 +186,20 @@
 </section>
 
 {#snippet card(p)}
-	<svelte:element this={p.href ? 'a' : 'article'} class="proj" id={p.id ? `p${p.id}` : undefined} href={p.href || undefined} target={p.href ? '_blank' : undefined} rel={p.href ? 'noopener' : undefined} data-type={p.type}>
+	<article class="proj" id={p.id ? `p${p.id}` : undefined} data-type={p.type}>
 		<div class="proj-img proj-img--{p.frame ?? 'shot'}"><img src={p.src} alt={p.name} loading="lazy"></div>
 		<div class="proj-body">
 			<h3>{p.name}</h3>
 			{#if p.desc}<p>{p.desc}</p>{/if}
+			{#if p.href || p.hrefOther}
+				<div class="proj-links">
+					{#if p.href}<a href={p.href} target="_blank" rel="noopener">{p.href.includes('github.com') ? 'GitHub' : 'Link'} ↗</a>{/if}
+					{#if p.hrefOther}<a href={p.hrefOther} target="_blank" rel="noopener">Link ↗</a>{/if}
+				</div>
+			{/if}
 			<div class="proj-meta"><span>{p.by && `by ${p.by}`}</span><span class="tag {TYPES[p.type].tag}">{TYPES[p.type].label}</span></div>
 		</div>
-	</svelte:element>
+	</article>
 {/snippet}
 
 <section class="section projects" id="projects">

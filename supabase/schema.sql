@@ -19,6 +19,7 @@ create table projects (
 	type text not null default 'hw' check (type in ('hw', 'sw', 'both')),
 	image text not null default '',
 	link text not null default '',
+	link_other text not null default '',
 	meeting int,
 	hidden boolean not null default false,
 	member_ids bigint[] not null default '{}',
