@@ -209,8 +209,8 @@
 			<div class="ms-head">
 				<h2>Meetings <span>so far!</span></h2>
 				<div class="m-arrows">
-					<button class="m-arrow" aria-label="Previous meetings" onclick={() => slide(-1)}>←</button>
-					<button class="m-arrow" aria-label="Next meetings" onclick={() => slide(1)}>→</button>
+					<button class="m-arrow" aria-label="Previous meetings" onclick={() => slide(-1)}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4 7 12l8 8"/></svg></button>
+					<button class="m-arrow" aria-label="Next meetings" onclick={() => slide(1)}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 4 8 8-8 8"/></svg></button>
 				</div>
 			</div>
 			<ul class="m-slides" bind:this={slides} onmouseenter={() => (paused = true)} onmouseleave={() => (paused = false)} onfocusin={() => (paused = true)} onfocusout={() => (paused = false)}>

@@ -589,6 +589,10 @@ a.proj { text-decoration: none; color: inherit; }
 .m-slides span { display: block; margin-top: 8px; font-size: clamp(14px, 1.1vw, 20px); font-weight: 800; text-transform: uppercase; line-height: 1.05; }
 .m-slides a:hover span { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 .m-arrow { width: 40px; height: 40px; border: 3px solid var(--white); border-radius: 6px; background: transparent; color: var(--white); font-size: 18px; font-weight: 800; cursor: pointer; transition: transform .15s, box-shadow .15s; }
+.m-arrow { display: grid; place-items: center; padding: 0; }
+.m-arrow svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.ms-head h2 span { display: inline; }
+@media (min-width: 821px) { .hook > .join { margin-bottom: clamp(24px, 7vh, 90px); } }
 .m-arrow:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--ink); }
 .pc-item:not(.active) { opacity: 1; }
 .pc-item:not(.active) img { filter: grayscale(.6) brightness(.7); }
