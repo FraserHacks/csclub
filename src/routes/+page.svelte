@@ -161,7 +161,7 @@
 		</div>
 
 		<ul class="stats">
-			{#each stats as [num, label], i}<li><b>{counts?.[i] ?? num}</b><span>{label}</span></li>{/each}
+			{#each stats as [num, label], i}<li><b class="echo" data-echo={counts?.[i] ?? num}>{counts?.[i] ?? num}</b><span>{label}</span></li>{/each}
 		</ul>
 
 		<div class="join">
@@ -194,7 +194,7 @@
 				<button class="m-arrow" aria-label="Previous meetings" onclick={() => slide(-1)}>←</button>
 				<ul class="m-slides" bind:this={slides}>
 					{#each pastMeetings as m}
-						<li><a href={m.href}><b>{String(m.n).padStart(2, '0')}</b><span>{m.title}</span></a></li>
+						<li><a href={m.href}><b class="echo" data-echo={String(m.n).padStart(2, '0')}>{String(m.n).padStart(2, '0')}</b><span>{m.title}</span></a></li>
 					{/each}
 				</ul>
 				<button class="m-arrow" aria-label="Next meetings" onclick={() => slide(1)}>→</button>
